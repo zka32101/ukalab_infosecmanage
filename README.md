@@ -50,4 +50,4 @@ dart run ukalab_core:validate_content assets/exam/info_security.json --subtopic-
 
 - 問題190問・用語110語は**全て自作の初期サンプル（運営者確認前の仮データ）**。公開前に大幅な追加（目標1,000問程度）と一次資料での裏取りが必要。IPAの過去問・シラバスは転載していない。
 - 広告はテスト用ID、課金は `FakeEntitlementService`（仮）。
-- アイコン・パッケージID（`com.yourwish.ukalab.infosecmanage`）は ITパスポート版の複製のまま。差し替えが必要。
+- アイコンは盾と鍵のシンボルに差し替え済み（うかラボ共通テンプレート。最終デザインは要確認）。パッケージID（`com.yourwish.ukalab.infosecmanage`）は本番用に確認が必要。

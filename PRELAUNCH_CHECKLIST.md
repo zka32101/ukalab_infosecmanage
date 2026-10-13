@@ -15,7 +15,7 @@
 
 - [ ] `ops` AdMob のアプリID・広告ユニットIDを発行して差し替え（現在はGoogle公式テスト用）
 - [ ] `ops` RevenueCat のAPIキー取得（現在は `FakeEntitlementService`）。商品ID `info_security_noads` / `info_security_premium`
-- [ ] `ops` アプリアイコンの作成（ITパスポート版の複製のまま）
+- [ ] `ops` アプリアイコンの最終デザイン確認（盾と鍵の仮デザインに差し替え済み）
 - [ ] `ops` Firebase プロジェクトの作成と `firestore.rules` のデプロイ
 - [ ] `ops` 価格の最終確認
 
