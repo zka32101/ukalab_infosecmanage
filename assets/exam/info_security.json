@@ -1,0 +1,20 @@
+{
+  "examId": "info_security",
+  "name": "情報セキュリティマネジメント試験",
+  "audience": "adult",
+  "subjects": [
+    {"subjectId": "kamoku_a", "name": "科目A（知識）", "order": 1},
+    {"subjectId": "kamoku_b", "name": "科目B（事例）", "order": 2}
+  ],
+  "levels": [
+    {
+      "levelId": "standard",
+      "name": "情報セキュリティマネジメント",
+      "questionCount": 60,
+      "timeLimitSec": 7200,
+      "passRule": {"totalPct": 60, "subjectMinPct": 0},
+      "subjectQuestionCounts": {"kamoku_a": 48, "kamoku_b": 12}
+    }
+  ],
+  "examDates": []
+}

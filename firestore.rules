@@ -1,0 +1,31 @@
+rules_version = '2';
+
+// 全国平均点・偏差値の匿名集計（決定32）向けの Firestore ルール。
+// exam_stats/{certId}_{examVersion} は件数・合計・平方和の3フィールドだけを持ち、
+// 個々の提出（誰がいつ何点取ったか）は保存しない。読み取りは誰でも可、書き込みは
+// 増分（FieldValue.increment）のみを許す。
+//
+// Firebase プロジェクト作成後、このファイルを `firebase deploy --only
+// firestore:rules` でデプロイし、Firebase Console の App Check をこの
+// プロジェクトで enforce にすること（App Check 自体はコードではなくプロジェクト
+// 設定）。元は app_common_kit の firestore.rules.template（決定32）。
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /exam_stats/{docId} {
+      allow read: if true;
+
+      allow write: if request.auth == null
+          && request.resource.data.keys().hasOnly(
+               ['certId', 'examVersion', 'count', 'sum', 'sumOfSquares', 'updatedAt'])
+          && request.resource.data.certId is string
+          && request.resource.data.examVersion is string
+          && request.resource.data.count is int
+          && request.resource.data.sum is number
+          && request.resource.data.sumOfSquares is number;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,76 @@
+# 各アプリのリポジトリに `.github/workflows/kit-update.yml` としてコピーして使う。
+#
+# 共通基盤（app_common_kit・ukalab_core・cross_promo_kit など）に新しいタグ（vX.Y.Z）が出たら、
+# pubspec.yaml の ref を上げるプルリクエストを自動で作る。マージは人が行う。
+#
+#  - 毎日1回（と、手動実行）で、タグを確かめる。新しいタグが無ければ何もしない
+#  - 上げたあと、flutter pub get・analyze・test をこのジョブの中で走らせ、結果を PR の本文に書く
+#    （GITHUB_TOKEN で作った PR では、アプリ側の CI が自動では動かないため）
+#  - 失敗しても PR は作る（本文に「失敗」と出る）。直し方は各パッケージの CHANGELOG.md の移行手順
+#
+# 事前設定: リポジトリの Settings → Actions → General →
+#   「Allow GitHub Actions to create and approve pull requests」をオンにする。
+#   アプリ側の CI も PR で自動実行したいときは、`KIT_UPDATE_TOKEN`（contents・pull requests の書き込み権限の PAT）を
+#   Secrets に登録する（無ければ GITHUB_TOKEN を使う）。
+name: kit-update
+
+on:
+  schedule:
+    - cron: '17 21 * * *' # 毎日 06:17（日本時間）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 最新のタグへ上げる
+        id: bump
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/zka32101/app_common_kit/v1.1.0/tools/kit_update/bump_kit_refs.py" -o "$RUNNER_TEMP/bump_kit_refs.py"
+          python3 "$RUNNER_TEMP/bump_kit_refs.py" pubspec.yaml --summary "$RUNNER_TEMP/summary.md"
+
+      - uses: subosito/flutter-action@v2
+        if: steps.bump.outputs.changed == 'true'
+        with:
+          channel: stable
+
+      - name: 依存を解決して検査する
+        id: check
+        if: steps.bump.outputs.changed == 'true'
+        continue-on-error: true
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
+
+      - name: PR の本文を作る
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          {
+            cat "$RUNNER_TEMP/summary.md"
+            echo
+            if [ "${{ steps.check.outcome }}" = "success" ]; then
+              echo "**この更新後の \`flutter analyze\` と \`flutter test\`: 成功**"
+            else
+              echo "**この更新後の \`flutter analyze\` / \`flutter test\`: 失敗**（ログは [この実行](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) を確認）"
+            fi
+          } > "$RUNNER_TEMP/body.md"
+
+      - uses: peter-evans/create-pull-request@v7
+        if: steps.bump.outputs.changed == 'true'
+        with:
+          token: ${{ secrets.KIT_UPDATE_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: chore/kit-update
+          delete-branch: true
+          commit-message: 'chore: 共通基盤のタグを更新'
+          title: 'chore: 共通基盤のタグを更新'
+          body-path: ${{ runner.temp }}/body.md
+          add-paths: |
+            pubspec.yaml
+            pubspec.lock

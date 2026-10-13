@@ -1,0 +1,74 @@
+name: ukalab_infosecmanage
+description: "うかラボ 情報セキュリティマネジメント - 情報セキュリティマネジメント試験対策アプリ。IPA（情報処理推進機構）とは無関係の非公式アプリ。"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # うかラボ共通基盤（コミット固定。main は参照しない。タグpushがこの環境の
+  # 権限では使えないため、不変の参照としてマージコミットのSHAを直接指定する）
+  app_common_kit:
+    git:
+      url: https://github.com/zka32101/app_common_kit.git
+      ref: v3.1.0
+  ukalab_core:
+    git:
+      url: https://github.com/zka32101/ukalab_core.git
+      ref: v0.65.0
+
+  # 推しのメダル・共有カードの画像を OS の共有シートで共有する。
+  # CI の Flutter 3.35（Dart 3.9）で解決できるよう 12.x に留める（13.x は Dart 3.10 以上が必要）。
+  share_plus: ">=12.0.0 <13.0.0"
+  # Web で共有に対応していないとき、画像をダウンロードにフォールバックする（条件付き import 側で使う）
+  web: ^1.1.0
+
+  # 状態管理
+  flutter_riverpod: ">=2.5.1 <3.0.0"
+
+  # 学習リマインダーの端末の通知（ローカル通知）。時刻はUTCの瞬間で渡すので、端末のタイムゾーン取得は要らない
+  flutter_local_notifications: ^19.4.0
+  timezone: ^0.10.1
+
+  # 進捗・コインの端末内保存
+  shared_preferences: ">=2.3.0 <3.0.0"
+  package_info_plus: ^9.0.1
+
+  # ながら学習モードの読み上げ（端末標準の音声合成）
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/exam/
+    - assets/questions/
+    - assets/terms/
+    - assets/experience/
+    - assets/features/
+    - assets/fonts/OFL.txt
+  fonts:
+    # BIZ UDPGothic（SIL OFL 1.1・モリサワ）。端末のフォント差で漢字の字形が変わらないよう同梱。
+    - family: BIZUDPGothic
+      fonts:
+        - asset: assets/fonts/BIZUDPGothic-Regular.ttf
+        - asset: assets/fonts/BIZUDPGothic-Bold.ttf
+          weight: 700
+
+# アプリアイコン（うかラボ共通テンプレート。決定75・ukalab_アプリアイコン作成方針_v0_1）。
+# 生成元: app_common_kit/tools/icon_gen。`dart run flutter_launcher_icons` で反映する。
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#6D4AD8"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
+  min_sdk_android: 21
