@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - name: 問題データの検証（出典必須・ID重複・正解一意性・比較対象タグの参照先など）
+        run: dart run ukalab_core:validate_content assets/exam/info_security.json --subtopic-scope=subject --terms assets/terms/info_security.jsonl assets/questions/info_security.jsonl
+
+  web-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Web 対応を追加（リポジトリに web/ が無いため）
+        run: flutter create --platforms=web .
+      - name: Build (web)
+        run: |
+          flutter pub get
+          flutter build web --dart2js-optimization=O1
+      - name: Install Playwright
+        working-directory: e2e
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: Serve and check
+        env:
+          E2E_SETTINGS: '購入,ながら学習モード,受験日'
+          E2E_EXAM_DATE: '1'
+          E2E_HOME: 'うかラボ 情報セキュリティマネジメント,用語集,間違いノート,100問ペース走'
+          E2E_LEARN: '第1問,10問'
+        run: |
+          (cd build/web && python3 -m http.server 8099 >/dev/null 2>&1 &)
+          for i in $(seq 1 30); do curl -sf http://localhost:8099/ >/dev/null && break; sleep 1; done
+          mkdir -p e2e/shots
+          node e2e/check.js e2e/shots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-screenshots
+          path: e2e/shots
