@@ -95,7 +95,7 @@ class _MistakeNoteScreenState extends ConsumerState<MistakeNoteScreen> {
 }
 
 /// 間違いノートを開く入口(設定・ホームで共通)。
-void openMistakeNote(
+Future<void> openMistakeNote(
   BuildContext context, {
   required ExamConfig exam,
   required List<Question> questions,
