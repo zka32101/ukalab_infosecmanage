@@ -1,0 +1,2243 @@
+{
+ "correct_longest_incl_tie": [
+  "info_security-0001",
+  "info_security-0004",
+  "info_security-0006",
+  "info_security-0008",
+  "info_security-0009",
+  "info_security-0010",
+  "info_security-0011",
+  "info_security-0012",
+  "info_security-0013",
+  "info_security-0015",
+  "info_security-0022",
+  "info_security-0026",
+  "info_security-0035",
+  "info_security-0037",
+  "info_security-0038",
+  "info_security-0039",
+  "info_security-0040",
+  "info_security-0041",
+  "info_security-0056",
+  "info_security-0065",
+  "info_security-0071",
+  "info_security-0079",
+  "info_security-0086",
+  "info_security-0090",
+  "info_security-0091",
+  "info_security-0099",
+  "info_security-0104",
+  "info_security-0106",
+  "info_security-0107",
+  "info_security-0118",
+  "info_security-0126",
+  "info_security-0139",
+  "info_security-0140",
+  "info_security-0141",
+  "info_security-0142",
+  "info_security-0148",
+  "info_security-0153",
+  "info_security-0154",
+  "info_security-0155",
+  "info_security-0157",
+  "info_security-0158",
+  "info_security-0163",
+  "info_security-0168",
+  "info_security-0172",
+  "info_security-0173",
+  "info_security-0176",
+  "info_security-0180",
+  "info_security-0184",
+  "info_security-0185",
+  "info_security-0195",
+  "info_security-0198",
+  "info_security-0200",
+  "info_security-0201",
+  "info_security-0203",
+  "info_security-0208",
+  "info_security-0209",
+  "info_security-0220",
+  "info_security-0224",
+  "info_security-0229",
+  "info_security-0232",
+  "info_security-0233",
+  "info_security-0242",
+  "info_security-0243",
+  "info_security-0245",
+  "info_security-0250",
+  "info_security-0251",
+  "info_security-0255",
+  "info_security-0262",
+  "info_security-0267",
+  "info_security-0268",
+  "info_security-0275",
+  "info_security-0281",
+  "info_security-0282",
+  "info_security-0284",
+  "info_security-0287",
+  "info_security-0289",
+  "info_security-0293",
+  "info_security-0295",
+  "info_security-0304",
+  "info_security-0308",
+  "info_security-0309",
+  "info_security-0311",
+  "info_security-0321",
+  "info_security-0322",
+  "info_security-0323",
+  "info_security-0325",
+  "info_security-0326",
+  "info_security-0329",
+  "info_security-0330",
+  "info_security-0336",
+  "info_security-0337",
+  "info_security-0338",
+  "info_security-0339",
+  "info_security-0345",
+  "info_security-0346",
+  "info_security-0353",
+  "info_security-0357",
+  "info_security-0373",
+  "info_security-0377",
+  "info_security-0380",
+  "info_security-0382",
+  "info_security-0384",
+  "info_security-0387",
+  "info_security-0390",
+  "info_security-0404",
+  "info_security-0405",
+  "info_security-0409",
+  "info_security-0410",
+  "info_security-0419",
+  "info_security-0420",
+  "info_security-0421",
+  "info_security-0425",
+  "info_security-0426",
+  "info_security-0429",
+  "info_security-0433",
+  "info_security-0436",
+  "info_security-0437",
+  "info_security-0438",
+  "info_security-0448",
+  "info_security-0452",
+  "info_security-0456",
+  "info_security-0457",
+  "info_security-0459",
+  "info_security-0468",
+  "info_security-0486",
+  "info_security-0501",
+  "info_security-0509",
+  "info_security-0511",
+  "info_security-0513",
+  "info_security-0514",
+  "info_security-0516",
+  "info_security-0520",
+  "info_security-0521",
+  "info_security-0522",
+  "info_security-0523",
+  "info_security-0524",
+  "info_security-0526",
+  "info_security-0530",
+  "info_security-0532",
+  "info_security-0537",
+  "info_security-0547",
+  "info_security-0556",
+  "info_security-0562",
+  "info_security-0566",
+  "info_security-0568",
+  "info_security-0572",
+  "info_security-0573",
+  "info_security-0575",
+  "info_security-0581",
+  "info_security-0584",
+  "info_security-0586",
+  "info_security-0590",
+  "info_security-0595",
+  "info_security-0600",
+  "info_security-0603",
+  "info_security-0605",
+  "info_security-0610",
+  "info_security-0614",
+  "info_security-0621",
+  "info_security-0622",
+  "info_security-0626",
+  "info_security-0629",
+  "info_security-0634",
+  "info_security-0637",
+  "info_security-0639",
+  "info_security-0644",
+  "info_security-0645",
+  "info_security-0646",
+  "info_security-0649",
+  "info_security-0651",
+  "info_security-0653",
+  "info_security-0654",
+  "info_security-0655",
+  "info_security-0657",
+  "info_security-0663",
+  "info_security-0665",
+  "info_security-0668",
+  "info_security-0674",
+  "info_security-0677",
+  "info_security-0686",
+  "info_security-0690",
+  "info_security-0692",
+  "info_security-0694",
+  "info_security-0697",
+  "info_security-0698",
+  "info_security-0701",
+  "info_security-0702",
+  "info_security-0704",
+  "info_security-0705",
+  "info_security-0706",
+  "info_security-0707",
+  "info_security-0714",
+  "info_security-0719",
+  "info_security-0725",
+  "info_security-0726",
+  "info_security-0728",
+  "info_security-0734",
+  "info_security-0736",
+  "info_security-0743",
+  "info_security-0747",
+  "info_security-0748",
+  "info_security-0749",
+  "info_security-0750",
+  "info_security-0751",
+  "info_security-0754",
+  "info_security-0755",
+  "info_security-0759",
+  "info_security-0762",
+  "info_security-0764",
+  "info_security-0765",
+  "info_security-0768",
+  "info_security-0769",
+  "info_security-0770",
+  "info_security-0774",
+  "info_security-0775",
+  "info_security-0777",
+  "info_security-0779",
+  "info_security-0780",
+  "info_security-0781",
+  "info_security-0782",
+  "info_security-0783",
+  "info_security-0789",
+  "info_security-0793",
+  "info_security-0794",
+  "info_security-0795",
+  "info_security-0799",
+  "info_security-0800",
+  "info_security-0804",
+  "info_security-0808",
+  "info_security-0811",
+  "info_security-0812",
+  "info_security-0815",
+  "info_security-0822",
+  "info_security-0826",
+  "info_security-0827",
+  "info_security-0831",
+  "info_security-0833",
+  "info_security-0844",
+  "info_security-0851",
+  "info_security-0860"
+ ],
+ "correct_longest_strict": [
+  "info_security-0004",
+  "info_security-0006",
+  "info_security-0022",
+  "info_security-0035",
+  "info_security-0038",
+  "info_security-0071",
+  "info_security-0079",
+  "info_security-0086",
+  "info_security-0090",
+  "info_security-0099",
+  "info_security-0106",
+  "info_security-0118",
+  "info_security-0139",
+  "info_security-0140",
+  "info_security-0141",
+  "info_security-0142",
+  "info_security-0148",
+  "info_security-0154",
+  "info_security-0155",
+  "info_security-0163",
+  "info_security-0173",
+  "info_security-0201",
+  "info_security-0203",
+  "info_security-0208",
+  "info_security-0242",
+  "info_security-0243",
+  "info_security-0245",
+  "info_security-0250",
+  "info_security-0251",
+  "info_security-0262",
+  "info_security-0275",
+  "info_security-0281",
+  "info_security-0282",
+  "info_security-0284",
+  "info_security-0289",
+  "info_security-0304",
+  "info_security-0308",
+  "info_security-0322",
+  "info_security-0323",
+  "info_security-0325",
+  "info_security-0326",
+  "info_security-0353",
+  "info_security-0357",
+  "info_security-0373",
+  "info_security-0384",
+  "info_security-0390",
+  "info_security-0404",
+  "info_security-0405",
+  "info_security-0419",
+  "info_security-0420",
+  "info_security-0425",
+  "info_security-0429",
+  "info_security-0437",
+  "info_security-0438",
+  "info_security-0448",
+  "info_security-0452",
+  "info_security-0457",
+  "info_security-0459",
+  "info_security-0511",
+  "info_security-0514",
+  "info_security-0520",
+  "info_security-0521",
+  "info_security-0522",
+  "info_security-0523",
+  "info_security-0524",
+  "info_security-0526",
+  "info_security-0530",
+  "info_security-0532",
+  "info_security-0537",
+  "info_security-0547",
+  "info_security-0556",
+  "info_security-0572",
+  "info_security-0573",
+  "info_security-0575",
+  "info_security-0581",
+  "info_security-0584",
+  "info_security-0590",
+  "info_security-0595",
+  "info_security-0603",
+  "info_security-0614",
+  "info_security-0621",
+  "info_security-0622",
+  "info_security-0626",
+  "info_security-0629",
+  "info_security-0634",
+  "info_security-0637",
+  "info_security-0639",
+  "info_security-0644",
+  "info_security-0645",
+  "info_security-0649",
+  "info_security-0651",
+  "info_security-0653",
+  "info_security-0654",
+  "info_security-0655",
+  "info_security-0657",
+  "info_security-0663",
+  "info_security-0668",
+  "info_security-0674",
+  "info_security-0677",
+  "info_security-0686",
+  "info_security-0692",
+  "info_security-0694",
+  "info_security-0697",
+  "info_security-0698",
+  "info_security-0701",
+  "info_security-0702",
+  "info_security-0704",
+  "info_security-0705",
+  "info_security-0706",
+  "info_security-0707",
+  "info_security-0714",
+  "info_security-0719",
+  "info_security-0725",
+  "info_security-0726",
+  "info_security-0728",
+  "info_security-0734",
+  "info_security-0736",
+  "info_security-0743",
+  "info_security-0747",
+  "info_security-0748",
+  "info_security-0750",
+  "info_security-0754",
+  "info_security-0755",
+  "info_security-0762",
+  "info_security-0764",
+  "info_security-0765",
+  "info_security-0769",
+  "info_security-0770",
+  "info_security-0774",
+  "info_security-0777",
+  "info_security-0779",
+  "info_security-0780",
+  "info_security-0782",
+  "info_security-0783",
+  "info_security-0789",
+  "info_security-0793",
+  "info_security-0794",
+  "info_security-0799",
+  "info_security-0804",
+  "info_security-0808",
+  "info_security-0811",
+  "info_security-0812",
+  "info_security-0815",
+  "info_security-0822",
+  "info_security-0826",
+  "info_security-0827",
+  "info_security-0833",
+  "info_security-0844",
+  "info_security-0851",
+  "info_security-0860"
+ ],
+ "negative_prompt": [
+  "info_security-0006",
+  "info_security-0093",
+  "info_security-0136",
+  "info_security-0182",
+  "info_security-0803",
+  "info_security-0819",
+  "info_security-0820"
+ ],
+ "similar_to_correct": [
+  [
+   "info_security-0012",
+   1,
+   0.76
+  ],
+  [
+   "info_security-0012",
+   2,
+   0.76
+  ],
+  [
+   "info_security-0012",
+   3,
+   1.0
+  ],
+  [
+   "info_security-0015",
+   0,
+   0.67
+  ],
+  [
+   "info_security-0040",
+   3,
+   0.71
+  ],
+  [
+   "info_security-0041",
+   3,
+   0.71
+  ],
+  [
+   "info_security-0104",
+   0,
+   0.62
+  ],
+  [
+   "info_security-0336",
+   0,
+   0.8
+  ],
+  [
+   "info_security-0372",
+   1,
+   1.0
+  ],
+  [
+   "info_security-0433",
+   0,
+   0.6
+  ],
+  [
+   "info_security-0453",
+   2,
+   0.76
+  ],
+  [
+   "info_security-0460",
+   0,
+   0.72
+  ],
+  [
+   "info_security-0470",
+   0,
+   0.71
+  ],
+  [
+   "info_security-0481",
+   2,
+   0.61
+  ],
+  [
+   "info_security-0511",
+   3,
+   0.73
+  ],
+  [
+   "info_security-0513",
+   3,
+   0.87
+  ],
+  [
+   "info_security-0716",
+   0,
+   0.69
+  ],
+  [
+   "info_security-0757",
+   1,
+   0.6
+  ],
+  [
+   "info_security-0768",
+   1,
+   1.0
+  ],
+  [
+   "info_security-0795",
+   1,
+   0.67
+  ],
+  [
+   "info_security-0822",
+   0,
+   0.62
+  ]
+ ],
+ "absolute_words": [
+  [
+   "info_security-0019",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0021",
+   [
+    0
+   ],
+   0
+  ],
+  [
+   "info_security-0046",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0047",
+   [
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0066",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0077",
+   [
+    2
+   ],
+   1
+  ],
+  [
+   "info_security-0078",
+   [
+    1
+   ],
+   2
+  ],
+  [
+   "info_security-0085",
+   [
+    0
+   ],
+   1
+  ],
+  [
+   "info_security-0088",
+   [
+    2
+   ],
+   2
+  ],
+  [
+   "info_security-0091",
+   [
+    1
+   ],
+   3
+  ],
+  [
+   "info_security-0095",
+   [
+    1
+   ],
+   1
+  ],
+  [
+   "info_security-0097",
+   [
+    3
+   ],
+   0
+  ],
+  [
+   "info_security-0105",
+   [
+    0
+   ],
+   1
+  ],
+  [
+   "info_security-0106",
+   [
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0107",
+   [
+    2
+   ],
+   0
+  ],
+  [
+   "info_security-0110",
+   [
+    3
+   ],
+   1
+  ],
+  [
+   "info_security-0123",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0128",
+   [
+    1
+   ],
+   0
+  ],
+  [
+   "info_security-0140",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0143",
+   [
+    0
+   ],
+   2
+  ],
+  [
+   "info_security-0149",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0151",
+   [
+    2
+   ],
+   1
+  ],
+  [
+   "info_security-0153",
+   [
+    0
+   ],
+   2
+  ],
+  [
+   "info_security-0154",
+   [
+    2
+   ],
+   0
+  ],
+  [
+   "info_security-0176",
+   [
+    2
+   ],
+   3
+  ],
+  [
+   "info_security-0180",
+   [
+    0
+   ],
+   2
+  ],
+  [
+   "info_security-0181",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0192",
+   [
+    2
+   ],
+   1
+  ],
+  [
+   "info_security-0205",
+   [
+    1
+   ],
+   1
+  ],
+  [
+   "info_security-0226",
+   [
+    0
+   ],
+   2
+  ],
+  [
+   "info_security-0234",
+   [
+    1
+   ],
+   1
+  ],
+  [
+   "info_security-0243",
+   [
+    3
+   ],
+   1
+  ],
+  [
+   "info_security-0251",
+   [
+    1
+   ],
+   0
+  ],
+  [
+   "info_security-0255",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0256",
+   [
+    0
+   ],
+   0
+  ],
+  [
+   "info_security-0258",
+   [
+    1,
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0262",
+   [
+    1
+   ],
+   0
+  ],
+  [
+   "info_security-0271",
+   [
+    0
+   ],
+   0
+  ],
+  [
+   "info_security-0279",
+   [
+    0
+   ],
+   1
+  ],
+  [
+   "info_security-0281",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0306",
+   [
+    2
+   ],
+   1
+  ],
+  [
+   "info_security-0311",
+   [
+    3
+   ],
+   1
+  ],
+  [
+   "info_security-0316",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0317",
+   [
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0318",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0322",
+   [
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0324",
+   [
+    2
+   ],
+   0
+  ],
+  [
+   "info_security-0330",
+   [
+    1
+   ],
+   3
+  ],
+  [
+   "info_security-0335",
+   [
+    2
+   ],
+   2
+  ],
+  [
+   "info_security-0348",
+   [
+    2
+   ],
+   2
+  ],
+  [
+   "info_security-0352",
+   [
+    2
+   ],
+   2
+  ],
+  [
+   "info_security-0353",
+   [
+    2
+   ],
+   3
+  ],
+  [
+   "info_security-0354",
+   [
+    1
+   ],
+   2
+  ],
+  [
+   "info_security-0373",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0384",
+   [
+    1
+   ],
+   2
+  ],
+  [
+   "info_security-0385",
+   [
+    2,
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0393",
+   [
+    2
+   ],
+   0
+  ],
+  [
+   "info_security-0415",
+   [
+    0,
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0419",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0424",
+   [
+    2
+   ],
+   1
+  ],
+  [
+   "info_security-0427",
+   [
+    0
+   ],
+   2
+  ],
+  [
+   "info_security-0428",
+   [
+    3
+   ],
+   1
+  ],
+  [
+   "info_security-0429",
+   [
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0438",
+   [
+    0
+   ],
+   2
+  ],
+  [
+   "info_security-0444",
+   [
+    3
+   ],
+   0
+  ],
+  [
+   "info_security-0445",
+   [
+    1
+   ],
+   0
+  ],
+  [
+   "info_security-0451",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0473",
+   [
+    1,
+    3
+   ],
+   2
+  ],
+  [
+   "info_security-0496",
+   [
+    2
+   ],
+   0
+  ],
+  [
+   "info_security-0505",
+   [
+    3
+   ],
+   0
+  ],
+  [
+   "info_security-0520",
+   [
+    0
+   ],
+   3
+  ],
+  [
+   "info_security-0521",
+   [
+    2
+   ],
+   0
+  ],
+  [
+   "info_security-0523",
+   [
+    2
+   ],
+   3
+  ],
+  [
+   "info_security-0664",
+   [
+    3
+   ],
+   3
+  ],
+  [
+   "info_security-0672",
+   [
+    0
+   ],
+   0
+  ],
+  [
+   "info_security-0691",
+   [
+    2
+   ],
+   2
+  ],
+  [
+   "info_security-0694",
+   [
+    1
+   ],
+   2
+  ],
+  [
+   "info_security-0709",
+   [
+    0
+   ],
+   0
+  ]
+ ],
+ "correct_ge_1.5x_runnerup": [
+  "info_security-0022",
+  "info_security-0163",
+  "info_security-0547",
+  "info_security-0629",
+  "info_security-0651",
+  "info_security-0704",
+  "info_security-0754",
+  "info_security-0764",
+  "info_security-0779",
+  "info_security-0793",
+  "info_security-0799",
+  "info_security-0833",
+  "info_security-0851"
+ ],
+ "explanation_quotes_wrong_choice_only": [
+  [
+   "info_security-0331",
+   [
+    0,
+    3
+   ]
+  ]
+ ],
+ "same_prompt": [
+  "info_security-0399",
+  "info_security-0778"
+ ],
+ "dup_qid": [],
+ "variants": {
+  "ウイルス/ウィルス": {
+   "ウイルス": [
+    "info_security-0075",
+    "info_security-0127",
+    "info_security-0132",
+    "info_security-0157",
+    "info_security-0187",
+    "info_security-0190",
+    "info_security-0193",
+    "info_security-0254",
+    "info_security-0285",
+    "info_security-0288",
+    "info_security-0335",
+    "info_security-0353",
+    "info_security-0354",
+    "info_security-0446",
+    "info_security-0570",
+    "info_security-0604",
+    "info_security-0615",
+    "info_security-0617",
+    "info_security-0670",
+    "info_security-0697",
+    "info_security-0775",
+    "info_security-0811",
+    "info_security-0832",
+    "info_security-0833",
+    "info_security_term-0065",
+    "info_security_term-0066"
+   ]
+  },
+  "サーバ/サーバー": {
+   "サーバ(?!ー)": [
+    "info_security-0006",
+    "info_security-0044",
+    "info_security-0047",
+    "info_security-0049",
+    "info_security-0051",
+    "info_security-0052",
+    "info_security-0070",
+    "info_security-0079",
+    "info_security-0084",
+    "info_security-0085",
+    "info_security-0094",
+    "info_security-0116",
+    "info_security-0117",
+    "info_security-0126",
+    "info_security-0129",
+    "info_security-0147",
+    "info_security-0163",
+    "info_security-0169",
+    "info_security-0172",
+    "info_security-0180",
+    "info_security-0192",
+    "info_security-0193",
+    "info_security-0194",
+    "info_security-0195",
+    "info_security-0199",
+    "info_security-0210",
+    "info_security-0211",
+    "info_security-0227",
+    "info_security-0232",
+    "info_security-0233",
+    "info_security-0238",
+    "info_security-0239",
+    "info_security-0281",
+    "info_security-0299",
+    "info_security-0308",
+    "info_security-0312",
+    "info_security-0321",
+    "info_security-0329",
+    "info_security-0343",
+    "info_security-0346",
+    "info_security-0353",
+    "info_security-0354",
+    "info_security-0371",
+    "info_security-0380",
+    "info_security-0382",
+    "info_security-0383",
+    "info_security-0396",
+    "info_security-0421",
+    "info_security-0427",
+    "info_security-0441",
+    "info_security-0443",
+    "info_security-0453",
+    "info_security-0479",
+    "info_security-0481",
+    "info_security-0492",
+    "info_security-0518",
+    "info_security-0531",
+    "info_security-0533",
+    "info_security-0535",
+    "info_security-0570",
+    "info_security-0572",
+    "info_security-0583",
+    "info_security-0585",
+    "info_security-0593",
+    "info_security-0599",
+    "info_security-0615",
+    "info_security-0617",
+    "info_security-0645",
+    "info_security-0662",
+    "info_security-0663",
+    "info_security-0668",
+    "info_security-0669",
+    "info_security-0710",
+    "info_security-0711",
+    "info_security-0712",
+    "info_security-0713",
+    "info_security-0721",
+    "info_security-0734",
+    "info_security-0752",
+    "info_security-0786",
+    "info_security-0789",
+    "info_security-0792",
+    "info_security-0799",
+    "info_security-0808",
+    "info_security-0812",
+    "info_security-0815",
+    "info_security-0816",
+    "info_security-0817",
+    "info_security-0821",
+    "info_security-0836",
+    "info_security-0837",
+    "info_security-0852",
+    "info_security_term-0041",
+    "info_security_term-0088",
+    "info_security_term-0129",
+    "info_security_term-0130",
+    "info_security_term-0132",
+    "info_security_term-0170",
+    "info_security_term-0202",
+    "info_security_term-0226",
+    "info_security_term-0240"
+   ]
+  },
+  "ユーザ/ユーザー": {
+   "ユーザー": [
+    "info_security-0313"
+   ]
+  },
+  "コンピュータ/コンピューター": {
+   "コンピュータ(?!ー)": [
+    "info_security-0132",
+    "info_security-0604",
+    "info_security-0631",
+    "info_security-0721",
+    "info_security-0775",
+    "info_security-0811",
+    "info_security-0832",
+    "info_security-0833",
+    "info_security-0844"
+   ]
+  },
+  "ブラウザ/ブラウザー": {
+   "ブラウザ(?!ー)": [
+    "info_security-0032",
+    "info_security-0051",
+    "info_security-0190",
+    "info_security-0672",
+    "info_security-0709",
+    "info_security-0711",
+    "info_security-0712",
+    "info_security-0816",
+    "info_security-0823",
+    "info_security_term-0239"
+   ]
+  },
+  "ファイアウォール/ファイヤーウォール": {
+   "ファイアウォール": [
+    "info_security-0054",
+    "info_security-0159",
+    "info_security-0161",
+    "info_security-0181",
+    "info_security-0258",
+    "info_security-0380",
+    "info_security-0450",
+    "info_security-0510",
+    "info_security-0533",
+    "info_security-0571",
+    "info_security-0615",
+    "info_security-0630",
+    "info_security_term-0039"
+   ]
+  },
+  "フィッシング/フィシング": {
+   "フィッシング": [
+    "info_security-0029",
+    "info_security-0114",
+    "info_security-0212",
+    "info_security-0216",
+    "info_security-0259",
+    "info_security-0585",
+    "info_security-0811",
+    "info_security_term-0022"
+   ]
+  },
+  "ログイン/ログオン": {
+   "ログイン": [
+    "info_security-0037",
+    "info_security-0057",
+    "info_security-0082",
+    "info_security-0087",
+    "info_security-0089",
+    "info_security-0115",
+    "info_security-0117",
+    "info_security-0187",
+    "info_security-0193",
+    "info_security-0210",
+    "info_security-0232",
+    "info_security-0259",
+    "info_security-0301",
+    "info_security-0423",
+    "info_security-0584",
+    "info_security-0688",
+    "info_security-0712",
+    "info_security-0735",
+    "info_security-0736",
+    "info_security-0772",
+    "info_security-0805",
+    "info_security-0818",
+    "info_security-0838",
+    "info_security-0844",
+    "info_security_term-0045",
+    "info_security_term-0190",
+    "info_security_term-0271"
+   ]
+  },
+  "バックアップ/バックアップ": {
+   "バックアップ": [
+    "info_security-0030",
+    "info_security-0047",
+    "info_security-0064",
+    "info_security-0084",
+    "info_security-0160",
+    "info_security-0162",
+    "info_security-0180",
+    "info_security-0215",
+    "info_security-0231",
+    "info_security-0238",
+    "info_security-0253",
+    "info_security-0329",
+    "info_security-0335",
+    "info_security-0356",
+    "info_security-0381",
+    "info_security-0401",
+    "info_security-0416",
+    "info_security-0458",
+    "info_security-0466",
+    "info_security-0469",
+    "info_security-0594",
+    "info_security-0687",
+    "info_security-0688",
+    "info_security-0689",
+    "info_security-0705",
+    "info_security-0752",
+    "info_security-0809",
+    "info_security-0839",
+    "info_security-0841",
+    "info_security_term-0003",
+    "info_security_term-0021",
+    "info_security_term-0023",
+    "info_security_term-0084",
+    "info_security_term-0120",
+    "info_security_term-0237",
+    "info_security_term-0303"
+   ]
+  },
+  "CSRF": {
+   "CSRF": [
+    "info_security-0117",
+    "info_security-0504"
+   ],
+   "クロスサイトリクエストフォージェリ": [
+    "info_security-0117"
+   ]
+  },
+  "XSS": {
+   "XSS": [
+    "info_security-0032",
+    "info_security-0301",
+    "info_security-0504",
+    "info_security-0581",
+    "info_security-0674",
+    "info_security-0710",
+    "info_security_term-0027",
+    "info_security_term-0152"
+   ],
+   "クロスサイトスクリプティング": [
+    "info_security-0031",
+    "info_security-0032",
+    "info_security-0438",
+    "info_security_term-0027"
+   ]
+  },
+  "ISMS": {
+   "ISMS": [
+    "info_security-0015",
+    "info_security-0017",
+    "info_security-0105",
+    "info_security-0245",
+    "info_security-0246",
+    "info_security-0273",
+    "info_security-0323",
+    "info_security-0374",
+    "info_security-0375",
+    "info_security-0376",
+    "info_security-0377",
+    "info_security-0379",
+    "info_security-0400",
+    "info_security-0431",
+    "info_security-0433",
+    "info_security-0445",
+    "info_security-0538",
+    "info_security-0547",
+    "info_security-0549",
+    "info_security-0567",
+    "info_security-0623",
+    "info_security-0639",
+    "info_security-0640",
+    "info_security-0744",
+    "info_security-0753",
+    "info_security-0796",
+    "info_security-0830",
+    "info_security_term-0013",
+    "info_security_term-0015",
+    "info_security_term-0096",
+    "info_security_term-0114",
+    "info_security_term-0115",
+    "info_security_term-0191",
+    "info_security_term-0204",
+    "info_security_term-0295"
+   ],
+   "情報セキュリティマネジメントシステム": [
+    "info_security-0015",
+    "info_security-0291",
+    "info_security-0538",
+    "info_security-0744"
+   ]
+  },
+  "ISO/IEC 27001": {
+   "ISO/IEC ?27001": [
+    "info_security-0015",
+    "info_security-0236",
+    "info_security-0291",
+    "info_security-0431",
+    "info_security-0435",
+    "info_security-0501",
+    "info_security-0795",
+    "info_security-0850",
+    "info_security_term-0013",
+    "info_security_term-0096"
+   ],
+   "JIS ?Q ?27001": [
+    "info_security-0431",
+    "info_security-0433",
+    "info_security-0538",
+    "info_security-0850"
+   ]
+  },
+  "SQLインジェクション": {
+   "SQLインジェクション": [
+    "info_security-0031",
+    "info_security-0032",
+    "info_security-0035",
+    "info_security-0259",
+    "info_security-0300",
+    "info_security-0504",
+    "info_security-0674",
+    "info_security_term-0026",
+    "info_security_term-0038",
+    "info_security_term-0151"
+   ]
+  },
+  "ランサムウェア": {
+   "ランサムウェア": [
+    "info_security-0030",
+    "info_security-0047",
+    "info_security-0084",
+    "info_security-0240",
+    "info_security-0253",
+    "info_security-0469",
+    "info_security-0609",
+    "info_security-0689",
+    "info_security-0809",
+    "info_security_term-0023",
+    "info_security_term-0065",
+    "info_security_term-0237",
+    "info_security_term-0275"
+   ]
+  },
+  "マルウェア": {
+   "マルウェア": [
+    "info_security-0023",
+    "info_security-0030",
+    "info_security-0034",
+    "info_security-0046",
+    "info_security-0118",
+    "info_security-0123",
+    "info_security-0157",
+    "info_security-0159",
+    "info_security-0213",
+    "info_security-0254",
+    "info_security-0255",
+    "info_security-0381",
+    "info_security-0382",
+    "info_security-0383",
+    "info_security-0389",
+    "info_security-0452",
+    "info_security-0668",
+    "info_security-0670",
+    "info_security-0671",
+    "info_security-0672",
+    "info_security-0767",
+    "info_security-0808",
+    "info_security-0811",
+    "info_security-0839",
+    "info_security-0863",
+    "info_security_term-0006",
+    "info_security_term-0023",
+    "info_security_term-0024",
+    "info_security_term-0065",
+    "info_security_term-0066",
+    "info_security_term-0067",
+    "info_security_term-0068",
+    "info_security_term-0182",
+    "info_security_term-0257"
+   ]
+  },
+  "ソフトウェア": {
+   "ソフトウェア": [
+    "info_security-0006",
+    "info_security-0045",
+    "info_security-0065",
+    "info_security-0134",
+    "info_security-0143",
+    "info_security-0159",
+    "info_security-0160",
+    "info_security-0167",
+    "info_security-0175",
+    "info_security-0207",
+    "info_security-0261",
+    "info_security-0285",
+    "info_security-0291",
+    "info_security-0295",
+    "info_security-0305",
+    "info_security-0324",
+    "info_security-0355",
+    "info_security-0382",
+    "info_security-0383",
+    "info_security-0429",
+    "info_security-0538",
+    "info_security-0577",
+    "info_security-0587",
+    "info_security-0625",
+    "info_security-0661",
+    "info_security-0684",
+    "info_security-0728",
+    "info_security-0846",
+    "info_security-0847",
+    "info_security_term-0007",
+    "info_security_term-0065",
+    "info_security_term-0070",
+    "info_security_term-0071",
+    "info_security_term-0154",
+    "info_security_term-0156"
+   ]
+  },
+  "ハードウェア": {
+   "ハードウェア": [
+    "info_security-0594"
+   ]
+  },
+  "Wi-Fi": {
+   "Wi-?Fi": [
+    "info_security-0142",
+    "info_security-0664"
+   ]
+  },
+  "ID/パスワード": {
+   "パスワード": [
+    "info_security-0029",
+    "info_security-0032",
+    "info_security-0036",
+    "info_security-0037",
+    "info_security-0043",
+    "info_security-0048",
+    "info_security-0054",
+    "info_security-0057",
+    "info_security-0073",
+    "info_security-0082",
+    "info_security-0084",
+    "info_security-0089",
+    "info_security-0095",
+    "info_security-0096",
+    "info_security-0115",
+    "info_security-0132",
+    "info_security-0141",
+    "info_security-0142",
+    "info_security-0150",
+    "info_security-0155",
+    "info_security-0157",
+    "info_security-0160",
+    "info_security-0165",
+    "info_security-0186",
+    "info_security-0187",
+    "info_security-0190",
+    "info_security-0193",
+    "info_security-0194",
+    "info_security-0198",
+    "info_security-0204",
+    "info_security-0212",
+    "info_security-0229",
+    "info_security-0239",
+    "info_security-0260",
+    "info_security-0263",
+    "info_security-0285",
+    "info_security-0288",
+    "info_security-0303",
+    "info_security-0311",
+    "info_security-0313",
+    "info_security-0325",
+    "info_security-0343",
+    "info_security-0347",
+    "info_security-0357",
+    "info_security-0396",
+    "info_security-0405",
+    "info_security-0424",
+    "info_security-0440",
+    "info_security-0495",
+    "info_security-0505",
+    "info_security-0508",
+    "info_security-0509",
+    "info_security-0522",
+    "info_security-0524",
+    "info_security-0527",
+    "info_security-0529",
+    "info_security-0537",
+    "info_security-0561",
+    "info_security-0569",
+    "info_security-0570",
+    "info_security-0582",
+    "info_security-0584",
+    "info_security-0585",
+    "info_security-0617",
+    "info_security-0652",
+    "info_security-0658",
+    "info_security-0659",
+    "info_security-0669",
+    "info_security-0675",
+    "info_security-0713",
+    "info_security-0721",
+    "info_security-0735",
+    "info_security-0736",
+    "info_security-0738",
+    "info_security-0805",
+    "info_security-0806",
+    "info_security-0811",
+    "info_security-0818",
+    "info_security-0821",
+    "info_security-0822",
+    "info_security-0844",
+    "info_security-0848",
+    "info_security-0853",
+    "info_security-0864",
+    "info_security_term-0030",
+    "info_security_term-0034",
+    "info_security_term-0057",
+    "info_security_term-0061",
+    "info_security_term-0062",
+    "info_security_term-0064",
+    "info_security_term-0071",
+    "info_security_term-0153",
+    "info_security_term-0186",
+    "info_security_term-0189",
+    "info_security_term-0210",
+    "info_security_term-0211",
+    "info_security_term-0271",
+    "info_security_term-0272",
+    "info_security_term-0286"
+   ],
+   "パスコード": [
+    "info_security-0409"
+   ]
+  },
+  "二要素/二段階/2要素/2段階": {
+   "多要素認証": [
+    "info_security-0029",
+    "info_security-0037",
+    "info_security-0043",
+    "info_security-0089",
+    "info_security-0115",
+    "info_security-0142",
+    "info_security-0150",
+    "info_security-0156",
+    "info_security-0216",
+    "info_security-0313",
+    "info_security-0415",
+    "info_security-0440",
+    "info_security-0508",
+    "info_security-0569",
+    "info_security-0735",
+    "info_security_term-0022",
+    "info_security_term-0030",
+    "info_security_term-0037",
+    "info_security_term-0059",
+    "info_security_term-0063"
+   ]
+  },
+  "PDCA": {
+   "PDCA": [
+    "info_security-0017",
+    "info_security-0077",
+    "info_security-0374",
+    "info_security-0375",
+    "info_security-0745",
+    "info_security_term-0013",
+    "info_security_term-0015"
+   ]
+  },
+  "BCP": {
+   "BCP": [
+    "info_security-0024",
+    "info_security-0112",
+    "info_security-0167",
+    "info_security-0461",
+    "info_security-0573",
+    "info_security-0692",
+    "info_security_term-0019",
+    "info_security_term-0218"
+   ],
+   "事業継続計画": [
+    "info_security-0024",
+    "info_security-0167",
+    "info_security-0461",
+    "info_security_term-0019"
+   ]
+  },
+  "脆弱性/ぜい弱性": {
+   "脆弱性": [
+    "info_security-0005",
+    "info_security-0012",
+    "info_security-0013",
+    "info_security-0014",
+    "info_security-0036",
+    "info_security-0045",
+    "info_security-0102",
+    "info_security-0207",
+    "info_security-0208",
+    "info_security-0213",
+    "info_security-0261",
+    "info_security-0262",
+    "info_security-0279",
+    "info_security-0285",
+    "info_security-0289",
+    "info_security-0290",
+    "info_security-0291",
+    "info_security-0295",
+    "info_security-0304",
+    "info_security-0305",
+    "info_security-0324",
+    "info_security-0353",
+    "info_security-0357",
+    "info_security-0358",
+    "info_security-0360",
+    "info_security-0364",
+    "info_security-0382",
+    "info_security-0383",
+    "info_security-0389",
+    "info_security-0425",
+    "info_security-0429",
+    "info_security-0430",
+    "info_security-0436",
+    "info_security-0438",
+    "info_security-0444",
+    "info_security-0486",
+    "info_security-0498",
+    "info_security-0503",
+    "info_security-0506",
+    "info_security-0514",
+    "info_security-0521",
+    "info_security-0523",
+    "info_security-0545",
+    "info_security-0552",
+    "info_security-0580",
+    "info_security-0583",
+    "info_security-0587",
+    "info_security-0589",
+    "info_security-0597",
+    "info_security-0603",
+    "info_security-0604",
+    "info_security-0613",
+    "info_security-0625",
+    "info_security-0626",
+    "info_security-0638",
+    "info_security-0642",
+    "info_security-0668",
+    "info_security-0672",
+    "info_security-0678",
+    "info_security-0683",
+    "info_security-0684",
+    "info_security-0740",
+    "info_security-0754",
+    "info_security-0761",
+    "info_security-0762",
+    "info_security-0774",
+    "info_security-0776",
+    "info_security-0777",
+    "info_security-0801",
+    "info_security_term-0006",
+    "info_security_term-0007",
+    "info_security_term-0029",
+    "info_security_term-0073",
+    "info_security_term-0074",
+    "info_security_term-0139",
+    "info_security_term-0140",
+    "info_security_term-0146",
+    "info_security_term-0154",
+    "info_security_term-0156",
+    "info_security_term-0175",
+    "info_security_term-0182",
+    "info_security_term-0207",
+    "info_security_term-0254",
+    "info_security_term-0263"
+   ]
+  },
+  "暗号化/暗号科": {
+   "暗号化": [
+    "info_security-0003",
+    "info_security-0019",
+    "info_security-0030",
+    "info_security-0039",
+    "info_security-0040",
+    "info_security-0042",
+    "info_security-0050",
+    "info_security-0051",
+    "info_security-0053",
+    "info_security-0055",
+    "info_security-0062",
+    "info_security-0064",
+    "info_security-0073",
+    "info_security-0084",
+    "info_security-0086",
+    "info_security-0095",
+    "info_security-0096",
+    "info_security-0098",
+    "info_security-0116",
+    "info_security-0120",
+    "info_security-0121",
+    "info_security-0123",
+    "info_security-0127",
+    "info_security-0129",
+    "info_security-0142",
+    "info_security-0155",
+    "info_security-0157",
+    "info_security-0168",
+    "info_security-0171",
+    "info_security-0176",
+    "info_security-0186",
+    "info_security-0191",
+    "info_security-0192",
+    "info_security-0193",
+    "info_security-0195",
+    "info_security-0197",
+    "info_security-0198",
+    "info_security-0199",
+    "info_security-0200",
+    "info_security-0202",
+    "info_security-0203",
+    "info_security-0204",
+    "info_security-0206",
+    "info_security-0208",
+    "info_security-0210",
+    "info_security-0214",
+    "info_security-0215",
+    "info_security-0235",
+    "info_security-0240",
+    "info_security-0260",
+    "info_security-0277",
+    "info_security-0288",
+    "info_security-0318",
+    "info_security-0330",
+    "info_security-0333",
+    "info_security-0334",
+    "info_security-0340",
+    "info_security-0341",
+    "info_security-0343",
+    "info_security-0353",
+    "info_security-0356",
+    "info_security-0381",
+    "info_security-0424",
+    "info_security-0446",
+    "info_security-0447",
+    "info_security-0448",
+    "info_security-0451",
+    "info_security-0458",
+    "info_security-0479",
+    "info_security-0480",
+    "info_security-0499",
+    "info_security-0504",
+    "info_security-0510",
+    "info_security-0511",
+    "info_security-0537",
+    "info_security-0566",
+    "info_security-0570",
+    "info_security-0572",
+    "info_security-0583",
+    "info_security-0584",
+    "info_security-0593",
+    "info_security-0605",
+    "info_security-0606",
+    "info_security-0609",
+    "info_security-0615",
+    "info_security-0646",
+    "info_security-0654",
+    "info_security-0661",
+    "info_security-0662",
+    "info_security-0663",
+    "info_security-0664",
+    "info_security-0666",
+    "info_security-0668",
+    "info_security-0671",
+    "info_security-0674",
+    "info_security-0689",
+    "info_security-0709",
+    "info_security-0710",
+    "info_security-0712",
+    "info_security-0713",
+    "info_security-0769",
+    "info_security-0773",
+    "info_security-0809",
+    "info_security-0818",
+    "info_security-0823",
+    "info_security-0824",
+    "info_security-0825",
+    "info_security-0834",
+    "info_security-0835",
+    "info_security-0836",
+    "info_security-0837",
+    "info_security-0838",
+    "info_security-0851",
+    "info_security-0852",
+    "info_security-0853",
+    "info_security-0864",
+    "info_security_term-0001",
+    "info_security_term-0023",
+    "info_security_term-0032",
+    "info_security_term-0033",
+    "info_security_term-0042",
+    "info_security_term-0043",
+    "info_security_term-0091",
+    "info_security_term-0092",
+    "info_security_term-0128",
+    "info_security_term-0135",
+    "info_security_term-0275",
+    "info_security_term-0300"
+   ]
+  },
+  "ゼロデイ": {
+   "ゼロデイ": [
+    "info_security-0035",
+    "info_security-0036",
+    "info_security_term-0029"
+   ]
+  },
+  "DoS": {
+   "DoS": [
+    "info_security-0029",
+    "info_security-0033",
+    "info_security-0037",
+    "info_security-0158",
+    "info_security-0211",
+    "info_security-0259",
+    "info_security-0581",
+    "info_security-0667",
+    "info_security-0721",
+    "info_security-0810",
+    "info_security-0817",
+    "info_security_term-0003",
+    "info_security_term-0028",
+    "info_security_term-0069",
+    "info_security_term-0228",
+    "info_security_term-0276"
+   ],
+   "DDoS": [
+    "info_security-0029",
+    "info_security-0033",
+    "info_security-0158",
+    "info_security-0259",
+    "info_security-0667",
+    "info_security-0810",
+    "info_security-0817",
+    "info_security_term-0003",
+    "info_security_term-0028",
+    "info_security_term-0069",
+    "info_security_term-0228",
+    "info_security_term-0276"
+   ]
+  },
+  "WAF/IDS/IPS": {
+   "WAF": [
+    "info_security-0022",
+    "info_security-0044",
+    "info_security-0169",
+    "info_security-0195",
+    "info_security-0510",
+    "info_security-0630",
+    "info_security_term-0038"
+   ],
+   "IDS": [
+    "info_security-0052",
+    "info_security_term-0040"
+   ],
+   "IPS": [
+    "info_security-0052",
+    "info_security_term-0040"
+   ]
+  }
+ },
+ "acronyms_not_in_glossary": {
+  "Availability": 1,
+  "Integrity": 1,
+  "Confidentiality": 1,
+  "Non": 1,
+  "Plan-Do-Check-Act": 1,
+  "Computer": 1,
+  "Security": 2,
+  "Incident": 1,
+  "Response": 1,
+  "Team": 1,
+  "URL": 7,
+  "DB": 2,
+  "CDN": 3,
+  "SYN": 1,
+  "MITM": 1,
+  "AES": 3,
+  "Application": 1,
+  "Firewall": 1,
+  "Virtual": 1,
+  "Private": 1,
+  "Network": 1,
+  "SNMP": 1,
+  "FTP": 11,
+  "WEP": 4,
+  "WPA3": 3,
+  "WPA2": 4,
+  "SSID": 5,
+  "SNS": 3,
+  "Service": 1,
+  "Level": 1,
+  "Agreement": 1,
+  "RFP": 1,
+  "IaaS": 3,
+  "ITIL": 3,
+  "CMMI": 1,
+  "PMBOK": 1,
+  "Excel": 1,
+  "USB": 10,
+  "Reliability": 1,
+  "Authenticity": 1,
+  "CSRF": 3,
+  "BCC": 2,
+  "SSL/TLS": 1,
+  "Wi-Fi": 3,
+  "AA": 1,
+  "AB": 1,
+  "AE": 1,
+  "AG": 1,
+  "Authentication": 1,
+  "Authorization": 1,
+  "Information": 1,
+  "Event": 1,
+  "Management": 1,
+  "BIA": 5,
+  "UTM": 4,
+  "KVM": 1,
+  "IC": 11,
+  "AH": 1,
+  "AJ": 1,
+  "AK": 1,
+  "WPA2/WPA3": 1,
+  "SaaS": 5,
+  "AO": 1,
+  "AQ": 1,
+  "AV": 1,
+  "AW": 1,
+  "AX": 1,
+  "AY": 1,
+  "PII": 1,
+  "HTML": 2,
+  "JavaScript": 5,
+  "OSS": 1,
+  "IoT": 8,
+  "BB": 1,
+  "BD": 1,
+  "Durability": 2,
+  "Consistency": 2,
+  "Isolation": 2,
+  "Atomicity": 2,
+  "SELECT": 1,
+  "WHERE": 2,
+  "ORDER": 2,
+  "GROUP": 2,
+  "INSERT": 1,
+  "RAID1": 3,
+  "RAID0": 2,
+  "RAID5": 1,
+  "L2": 1,
+  "POP3": 3,
+  "IMAP": 2,
+  "Check": 4,
+  "Plan": 2,
+  "Act": 3,
+  "Need": 1,
+  "BG": 1,
+  "BH": 1,
+  "BI": 1,
+  "BJ": 1,
+  "BK": 1,
+  "BL": 1,
+  "NCA": 2,
+  "JFBA": 1,
+  "JCCI": 1,
+  "JMA": 1,
+  "BM": 1,
+  "BN": 1,
+  "BP": 1,
+  "BQ": 1,
+  "BR": 1,
+  "BS": 1,
+  "BT": 1,
+  "BU": 1,
+  "BV": 1,
+  "ARP": 4,
+  "PaaS": 1,
+  "BW": 1,
+  "BX": 1,
+  "BZ": 1,
+  "CB": 1,
+  "CD": 1,
+  "CF": 1,
+  "CG": 1,
+  "CJ": 1,
+  "DE": 1,
+  "DF": 1,
+  "DG": 1,
+  "DJ": 1,
+  "IPsec": 1,
+  "PCI": 3,
+  "DSS": 3,
+  "HIPAA": 2,
+  "SOX": 5,
+  "COSO": 2,
+  "NIST": 2,
+  "CSF": 1,
+  "JVN": 3,
+  "Top": 1,
+  "DevSecOps": 1,
+  "SoA": 1,
+  "DMARC": 2,
+  "HSM": 2,
+  "CASB": 1,
+  "OT/ICS": 1,
+  "SHA-256": 3,
+  "RSA": 2,
+  "CSIP": 1,
+  "EA": 1,
+  "EE": 1,
+  "EF": 1,
+  "EG": 1,
+  "CWE": 3,
+  "SASE": 2,
+  "SD-WAN": 1,
+  "IdP": 1,
+  "FB": 1,
+  "FC": 1,
+  "FD": 1,
+  "FE": 1,
+  "FF": 1,
+  "FG": 1,
+  "FH": 1,
+  "PIN": 1,
+  "IEEE": 2,
+  "Bluetooth": 2,
+  "RFID": 2,
+  "STRIDE": 1,
+  "CPU": 1,
+  "KPI": 8,
+  "GA": 1,
+  "GB": 1,
+  "GC": 1,
+  "GE": 1,
+  "GF": 1,
+  "Cookie": 12,
+  "SameSite": 1,
+  "UC": 1,
+  "HB": 1,
+  "HD": 1,
+  "HE": 1,
+  "HF": 1,
+  "HG": 1,
+  "HI": 1,
+  "HJ": 1,
+  "HK": 1,
+  "SLE": 2,
+  "ARO": 2,
+  "DAC": 3,
+  "Tier": 1,
+  "IB": 1,
+  "IF": 1,
+  "IG": 1,
+  "IH": 1,
+  "Advanced": 1,
+  "Persistent": 1,
+  "Threat": 1,
+  "Adversarial": 1,
+  "Examples": 1,
+  "Outbound": 1,
+  "Port": 1,
+  "Blocking": 1,
+  "PGP": 1,
+  "Telnet": 1,
+  "GPL": 1,
+  "IPv4": 3,
+  "SFTP": 4,
+  "FTPS": 2,
+  "JA": 1,
+  "JB": 1,
+  "JC": 1,
+  "JD": 1,
+  "JE": 1
+ },
+ "_counts": {
+  "questions": 833,
+  "terms": 306
+ },
+ "_subject_summary": {
+  "kamoku_a": {
+   "n": 682,
+   "correct_longest_incl_tie": 187,
+   "correct_longest_strict": 112,
+   "correct_ge_1.5x": 9
+  },
+  "kamoku_b": {
+   "n": 151,
+   "correct_longest_incl_tie": 53,
+   "correct_longest_strict": 38,
+   "correct_ge_1.5x": 4
+  }
+ }
+}
