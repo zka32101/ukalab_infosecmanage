@@ -8,6 +8,8 @@ import 'package:ukalab_core/exam_date.dart';
 import '../data/history_store.dart';
 import 'learn_screen.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// ホームに出す、プレミアム機能の入口（弱点ドリル・試験直前モード）。
 ///
 /// どちらも解答履歴から出題を組む。premium でなければ案内を出すだけで、画面には入らない
@@ -41,8 +43,8 @@ class PremiumPracticeCards extends ConsumerWidget {
   void _open(BuildContext context, String title, List<Question> drill) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => Scaffold(
-          appBar: AppBar(title: Text(title)),
+        builder: (context) => Scaffold(
+          appBar: wrappingAppBar(context, title),
           body: LearnScreen(questions: drill, terms: terms, sessionSize: drill.length),
         ),
       ),

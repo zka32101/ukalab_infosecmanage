@@ -20,6 +20,8 @@ import 'reading_screen.dart';
 import 'route_planner_screen.dart';
 import 'terms_screen.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// 「ホーム」タブ。推し・学習コインを表示（決定67〜77）。
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({
@@ -129,7 +131,7 @@ class HomeScreen extends ConsumerWidget {
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (context) => Scaffold(
-                    appBar: AppBar(title: const Text('用語集')),
+                    appBar: wrappingAppBar(context, '用語集'),
                     body: TermsScreen(exam: exam, terms: terms),
                   ),
                 ),
@@ -147,7 +149,7 @@ class HomeScreen extends ConsumerWidget {
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (context) => Scaffold(
-                      appBar: AppBar(title: const Text('分野ごとの解説読み物')),
+                      appBar: wrappingAppBar(context, '分野ごとの解説読み物'),
                       body: ReadingListScreen(
                         readings: chapterReadings,
                         terms: terms,
@@ -188,7 +190,7 @@ class HomeScreen extends ConsumerWidget {
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (context) => Scaffold(
-                    appBar: AppBar(title: const Text('100問ペース走')),
+                    appBar: wrappingAppBar(context, '100問ペース走'),
                     body: PaceRunScreen(questions: questions),
                   ),
                 ),

@@ -9,6 +9,7 @@ import 'package:ukalab_core/ukalab_core.dart';
 
 import '../data/progress_store.dart';
 import '../widgets/oshi_card.dart';
+import '../widgets/overflow_safe.dart';
 
 /// 今回の解答から、結果分析に渡す入力を作る。分野は科目(`subjectId`)単位にする
 /// (出題の `topicId` は論点ごとに細かく、1問ずつでは正答率が出ないため)。
@@ -236,12 +237,12 @@ class _MockExamScreenState extends ConsumerState<MockExamScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.questions.isEmpty) {
-      return const EmptyState(message: '問題データがまだありません。');
+      return const ScrollableCenter(child: EmptyState(message: '問題データがまだありません。'));
     }
     final level = widget.exam.levels.first;
 
     if (!_started) {
-      return Center(
+      return ScrollableCenter(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(

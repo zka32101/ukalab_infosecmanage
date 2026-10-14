@@ -6,6 +6,8 @@ import 'package:ukalab_core/ukalab_core.dart';
 import '../data/progress_store.dart';
 import '../data/subject_progress.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// 「最短ルートプランナー」画面（型④、決定76・77）。残り日数・弱点・配点から
 /// 「今日やる3つ」を出す。
 class RoutePlannerScreen extends ConsumerWidget {
@@ -29,7 +31,7 @@ class RoutePlannerScreen extends ConsumerWidget {
         .plan(exam: exam, level: level, progress: subjectProgress);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('最短ルートプランナー')),
+      appBar: wrappingAppBar(context, '最短ルートプランナー'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: RoutePlannerWidget(
