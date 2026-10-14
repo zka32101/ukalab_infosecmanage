@@ -13,11 +13,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v3.1.0"
-      resolved-ref: "05e8566e5b52f00f9697a67125ec447b676c048c"
+      ref: "v3.5.0"
+      resolved-ref: f62bcf9af25bb89684715b367039a0644a0d226d
       url: "https://github.com/zka32101/app_common_kit.git"
     source: git
-    version: "3.1.0"
+    version: "3.5.0"
   archive:
     dependency: transitive
     description:
@@ -771,11 +771,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v0.65.0"
-      resolved-ref: fd8077396b6cdb67504beec0b8e8737c73a83623
+      ref: "v0.69.0"
+      resolved-ref: efcecd4cfbbf4eca2c33fa1ce137c1bc5987825c
       url: "https://github.com/zka32101/ukalab_core.git"
     source: git
-    version: "0.65.0"
+    version: "0.69.0"
   url_launcher:
     dependency: transitive
     description:
