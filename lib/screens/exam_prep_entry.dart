@@ -8,6 +8,8 @@ import '../data/core_features.dart';
 import '../data/history_store.dart';
 import 'learn_screen.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// ukalab_core の共通画面(`lib/ui/exam_prep/`)をこのアプリのデータにつなぐ部分。
 /// 画面・文言は core 側。ここは取得・保存・premium 判定・遷移だけ。
 
@@ -43,8 +45,8 @@ class CoreFeaturesCard extends ConsumerWidget {
           return;
         }
         Navigator.of(c).push(MaterialPageRoute<void>(
-          builder: (_) => Scaffold(
-            appBar: AppBar(title: Text(title)),
+          builder: (context) => Scaffold(
+            appBar: wrappingAppBar(context, title),
             body: LearnScreen(
                 questions: pool, terms: terms, sessionSize: pool.length),
           ),

@@ -7,6 +7,8 @@ import 'package:ukalab_core/ui.dart';
 
 import 'learn_screen.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// 章ごとの解説読み物（教科書的なまとめページ）の一覧。
 class ReadingListScreen extends ConsumerWidget {
   const ReadingListScreen({
@@ -47,7 +49,7 @@ class ReadingListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (readings.isEmpty) {
-      return const EmptyState(message: '解説読み物のデータがまだありません。');
+      return const ScrollableCenter(child: EmptyState(message: '解説読み物のデータがまだありません。'));
     }
     return ListView.separated(
       padding: const EdgeInsets.all(16),
@@ -63,7 +65,7 @@ class ReadingListScreen extends ConsumerWidget {
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (context) => Scaffold(
-                  appBar: AppBar(title: Text(r.title)),
+                  appBar: wrappingAppBar(context, r.title),
                   body: ChapterReadingWidget(
                     title: r.title,
                     sections: [
@@ -102,7 +104,7 @@ class ReadingListScreen extends ConsumerWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (context) => Scaffold(
-                            appBar: AppBar(title: const Text('関連問題')),
+                            appBar: wrappingAppBar(context, '関連問題'),
                             body: LearnScreen(
                               questions: [question],
                               terms: terms,

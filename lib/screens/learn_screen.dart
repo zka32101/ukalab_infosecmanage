@@ -11,6 +11,8 @@ import '../data/history_store.dart';
 import '../data/review_schedule.dart';
 import '../data/progress_store.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// 「学ぶ」タブ: 短い演習セッション（最小実装。間隔反復・弱点優先は後続）。
 class LearnScreen extends ConsumerStatefulWidget {
   const LearnScreen({
@@ -172,7 +174,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.questions.isEmpty) {
-      return const EmptyState(message: '問題データがまだありません。');
+      return const ScrollableCenter(child: EmptyState(message: '問題データがまだありません。'));
     }
     // 回答済みの間は、回答した問題で描く（_answeredQuestion の説明を参照）。
     final q = _answeredQuestion ?? _session.current;

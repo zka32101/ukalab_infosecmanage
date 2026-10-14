@@ -7,6 +7,8 @@ import 'package:ukalab_core/ukalab_core.dart';
 import '../data/progress_store.dart';
 import '../data/subject_progress.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// 「記録」タブ: 解いた問題数・正答率・連続学習日数・科目別の正答率。
 /// 間隔反復・苦手分析・平均点・偏差値は後続（決定30・50）。
 class RecordScreen extends ConsumerWidget {
@@ -19,9 +21,11 @@ class RecordScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final progress = ref.watch(progressProvider);
     if (progress.distinctAnswered == 0) {
-      return const EmptyState(
-        icon: Icons.insights_outlined,
-        message: '学習の記録はこれから。演習を進めると、ここに成績が表示されます。',
+      return const ScrollableCenter(
+        child: EmptyState(
+          icon: Icons.insights_outlined,
+          message: '学習の記録はこれから。演習を進めると、ここに成績が表示されます。',
+        ),
       );
     }
     final theme = Theme.of(context);

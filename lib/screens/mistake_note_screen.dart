@@ -8,6 +8,8 @@ import '../data/mistake_notes.dart';
 import '../data/oshi_recap.dart';
 import 'learn_screen.dart';
 
+import '../widgets/overflow_safe.dart';
+
 /// 間違いノート。ukalab_core の [MistakeNoteView] に、このアプリの履歴・保存先・出題画面をつなぐ。
 /// 無料で使える(core の [PremiumFeature] に該当機能がないため)。
 ///
@@ -67,7 +69,7 @@ class _MistakeNoteScreenState extends ConsumerState<MistakeNoteScreen> {
     final byQid = {for (final q in widget.questions) q.qid: q};
     final entries = _entries;
     return Scaffold(
-      appBar: AppBar(title: const Text('間違いノート')),
+      appBar: wrappingAppBar(context, '間違いノート'),
       body: entries == null
           ? const Center(child: CircularProgressIndicator())
           : MistakeNoteView(
@@ -81,8 +83,8 @@ class _MistakeNoteScreenState extends ConsumerState<MistakeNoteScreen> {
                 final q = byQid[entry.qid];
                 if (q == null) return;
                 await Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (_) => Scaffold(
-                    appBar: AppBar(title: const Text('解き直す')),
+                  builder: (context) => Scaffold(
+                    appBar: wrappingAppBar(context, '解き直す'),
                     body: LearnScreen(
                         questions: [q], terms: widget.terms, sessionSize: 1),
                   ),
