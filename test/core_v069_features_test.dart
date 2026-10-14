@@ -201,13 +201,13 @@ void main() {
       expect(p.studyDays, 3);
     });
 
-    testWidgets('吹き出しが出る。節目に届いていなければ祝福は出ない', (tester) async {
+    testWidgets('吹き出しは出ない。節目に届いていなければ祝福も出ない', (tester) async {
       SharedPreferences.setMockInitialValues({});
       await _pumpPart(tester, const OshiGrowthSection(), overrides: [
         oshiGrowthServiceProvider
             .overrideWithValue(OshiGrowthService(store: InMemoryOshiGrowthStore())),
       ]);
-      expect(find.byType(OshiGrowthBubble), findsOneWidget);
+      expect(find.byType(OshiGrowthBubble, skipOffstage: false), findsNothing);
       expect(find.byType(OshiGrowthCelebrationCard), findsNothing);
     });
 
@@ -242,7 +242,7 @@ void main() {
     });
 
     for (final (width, scale) in [(320.0, 1.0), (320.0, 2.0)]) {
-      testWidgets('吹き出しは幅 $width・文字 $scale 倍でオーバーフローしない', (tester) async {
+      testWidgets('見張り役は幅 $width・文字 $scale 倍でオーバーフローしない', (tester) async {
         SharedPreferences.setMockInitialValues({});
         await _pumpPart(
           tester,
@@ -254,7 +254,7 @@ void main() {
                 .overrideWithValue(OshiGrowthService(store: InMemoryOshiGrowthStore())),
           ],
         );
-        expect(find.byType(OshiGrowthBubble), findsOneWidget);
+        expect(find.byType(OshiGrowthBubble, skipOffstage: false), findsNothing);
         expect(tester.takeException(), isNull);
       });
     }
