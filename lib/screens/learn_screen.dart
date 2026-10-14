@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukalab_core/ukalab_core.dart';
 
 import '../data/history_store.dart';
+import '../data/review_schedule.dart';
 import '../data/progress_store.dart';
 
 /// 「学ぶ」タブ: 短い演習セッション（最小実装。間隔反復・弱点優先は後続）。
@@ -82,11 +83,15 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     final correct = i == q.answerIndex;
     await ref.read(progressProvider.notifier).recordAnswer(q.qid, correct: correct);
     await recordDailyAnswer(ref);
+    // 履歴の時刻と復習予定の時刻を揃える(復習より後の間違いと見なされて段0に戻るのを避ける)。
+    final now = DateTime.now();
     await ref.read(historyProvider.notifier).record(
           q,
           correct: correct,
-          ms: DateTime.now().difference(_shownAt).inMilliseconds,
+          ms: now.difference(_shownAt).inMilliseconds,
+          at: now,
         );
+    await ref.read(reviewScheduleProvider.notifier).applyResult(q.qid, correct: correct, now: now);
     await ref.read(coinProvider.notifier).grant(CoinEvent.newQuestion(q.qid));
     final streakDays = ref.read(progressProvider).streakDays;
     if (streakCoinMilestones.contains(streakDays)) {

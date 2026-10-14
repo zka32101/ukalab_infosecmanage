@@ -10,6 +10,14 @@ import 'package:ukalab_core/ukalab_core.dart';
 import '../data/progress_store.dart';
 import '../widgets/oshi_card.dart';
 
+/// 今回の解答から、結果分析に渡す入力を作る。分野は科目(`subjectId`)単位にする
+/// (出題の `topicId` は論点ごとに細かく、1問ずつでは正答率が出ないため)。
+/// 未回答は不正解として数える(採点と同じ)。
+List<MockExamAnswer> mockExamAnswersFor(List<Question> picked, Map<String, int?> answers) => [
+      for (final q in picked)
+        MockExamAnswer(topicId: q.subjectId, correct: answers[q.qid] == q.answerIndex),
+    ];
+
 /// 「模擬」タブ: 本試験相当の採点（合格ラインの目安は非公開のため70%を目安と明記）。
 ///
 /// 出題は科目別の出題数配分(ExamConfig.levels.subjectQuestionCounts)どおりに
@@ -284,6 +292,12 @@ class _MockExamScreenState extends ConsumerState<MockExamScreen> {
                 total: result.total.max,
                 passRatio: level.passRule.totalPct / 100,
                 onRetry: _start,
+              ),
+              const SizedBox(height: 16),
+              // 結果の分析(科目ごとの様子・次にやる分野)。今回の解答だけから作り、何も保存しない。
+              MockExamAnalysisCard(
+                analysis: const MockExamAnalysisEngine().analyze(mockExamAnswersFor(_picked, _answers)),
+                topicLabel: (id) => widget.exam.subject(id)?.name ?? id,
               ),
               const SizedBox(height: 16),
               StatsCompareWidget(summary: _statsSummary, myScore: result.total.score),

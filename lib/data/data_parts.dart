@@ -8,6 +8,7 @@ import 'core_features.dart';
 import 'history_store.dart';
 import 'mistake_notes.dart';
 import 'progress_store.dart';
+import 'review_schedule.dart';
 
 /// 設定タブの「データの管理」（書き出し・読み込み・リセット）の対象。
 ///
@@ -76,4 +77,6 @@ final List<DataPart> infoSecurityDataParts = [
   ),
   // 間違いノート(間違えた問題ID・日時・原因・分野・回数。端末内)。
   mistakeNoteDataPart(mistakeNoteStore),
+  // 今日の復習の予定(間違いノートから作る復習日程。端末内)。
+  reviewScheduleDataPart(),
 ];

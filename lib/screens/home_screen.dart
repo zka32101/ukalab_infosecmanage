@@ -9,7 +9,9 @@ import 'package:ukalab_core/reminder.dart' show StudyReminderCard;
 import 'package:ukalab_core/exam_date.dart';
 import '../data/exam_repository.dart';
 import '../widgets/oshi_card.dart';
+import '../widgets/oshi_growth_section.dart';
 import '../widgets/oshi_home_cards.dart';
+import '../widgets/today_review_section.dart';
 import 'mistake_note_screen.dart';
 import 'pace_run_screen.dart';
 import 'exam_prep_entry.dart';
@@ -89,8 +91,17 @@ class HomeScreen extends ConsumerWidget {
           const DailyMissionCard(),
           const StudyReminderCard(),
           const SizedBox(height: 16),
+          // 今日の復習(間違いノートから。期限が来た件数だけを静かに知らせる)。「やってみる」は既存の間違いノートへ。
+          TodayReviewSection(
+            onStart: () =>
+                openMistakeNote(context, exam: exam, questions: questions, terms: terms),
+          ),
+          const SizedBox(height: 16),
           // 週間ふりかえり(無料。今週できたことだけを見せる)。
           WeeklyRecapSection(exam: exam, questions: questions),
+          const SizedBox(height: 16),
+          // これまでの積み重ねへの推しの反応と、節目の祝福(一度だけ。ホームが最前面のとき)。
+          const OshiGrowthSection(),
           const SizedBox(height: 16),
           PremiumPracticeCards(exam: exam, questions: questions, terms: terms),
           const SizedBox(height: 16),
