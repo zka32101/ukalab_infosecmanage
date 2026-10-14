@@ -5,7 +5,7 @@
 ## 位置づけ
 
 ```
-うかラボ 情報セキュリティマネジメント（本リポジトリ） → ukalab_core v0.65.0 / app_common_kit v3.1.0
+うかラボ 情報セキュリティマネジメント（本リポジトリ） → ukalab_core v0.69.0 / app_common_kit v3.5.0
 ```
 
 試験定義・問題・用語・解説読み物・ストア設定だけを持つ薄いリポジトリです。構成は同じIPA系の先行アプリ [ukalab_it_passport](https://github.com/zka32101/ukalab_it_passport) を土台にしています。

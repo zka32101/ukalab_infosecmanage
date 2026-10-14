@@ -10,6 +10,7 @@
 - [ ] `content` 用語データ（141語）の拡充と運営者確認
 - [ ] `content` シラバス最新版との出題範囲の突合（`docs/` に対応表を作成）
 - [ ] `content` 解説読み物の拡充（現在2本）
+- [ ] `content` 更新ログ（`assets/features/update_log.jsonl`）は空。公開時の内容を記入
 
 ## 本番環境・運用
 
