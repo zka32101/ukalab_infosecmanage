@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#6D4AD8</color>
+    <!-- 起動画面の背景色。アプリアイコン背景（青）の平均色。lib/main.dart の kLaunchBackground と揃える -->
+    <color name="launch_background_color">#2A6FC0</color>
 </resources>
