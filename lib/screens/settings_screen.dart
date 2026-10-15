@@ -13,6 +13,7 @@ import 'package:ukalab_core/exam_date.dart';
 import '../data/data_parts.dart';
 import '../data/history_store.dart';
 import 'exam_prep_entry.dart';
+import '../peer/peer_stats_settings_tile.dart';
 import 'mistake_note_screen.dart';
 
 /// 「設定」タブ。課金（決定35）の購入・復元を提供する。広告はnoads/premiumの
@@ -117,6 +118,7 @@ class SettingsScreen extends ConsumerWidget {
           child: const Text('購入を復元'),
         ),
         const Divider(height: 24),
+        if (kPeerStatsSettingsVisible) ...const [PeerStatsSettingsTile(), Divider(height: 24)],
         const DailyGoalSetting(),
         const Divider(height: 24),
         const ReminderSettingsSection(),
