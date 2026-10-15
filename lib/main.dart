@@ -181,6 +181,19 @@ class UkalabInfoSecurityApp extends ConsumerWidget {
   }
 }
 
+/// ネイティブ起動画面（Android launch_background / values-v31、iOS LaunchScreen.storyboard）と
+/// 同じ背景色・同じアイコンにして、起動からアプリ内の読み込み画面まで見た目をつなぐ。
+/// 背景色は android の `launch_background_color` と storyboard の背景色に一致させること。
+const Color kLaunchBackground = Color(0xFF2A6FC0);
+const String kLaunchIconAsset = 'assets/icon/app_icon_foreground.png';
+const double kLaunchIconSize = 108;
+
+StartupSplash buildLaunchSplash() => const StartupSplash(
+      appIconAsset: kLaunchIconAsset,
+      backgroundColor: kLaunchBackground,
+      appIconSize: kLaunchIconSize,
+    );
+
 class _RootPage extends ConsumerWidget {
   const _RootPage();
 
@@ -188,7 +201,7 @@ class _RootPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final examData = ref.watch(examDataProvider);
     return examData.when(
-      loading: () => const StartupSplash(),
+      loading: () => buildLaunchSplash(),
       error: (e, st) => Scaffold(
         body: ErrorState(
           message: '問題データを読み込めませんでした。\n$e',
