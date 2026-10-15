@@ -14,7 +14,7 @@ packages:
     description:
       path: "."
       ref: "v3.11.0"
-      resolved-ref: 7eeaad36fc96e2a3a0980d319b88441b91ad946f
+      resolved-ref: "7eeaad36fc96e2a3a0980d319b88441b91ad946f"
       url: "https://github.com/zka32101/app_common_kit.git"
     source: git
     version: "3.11.0"
@@ -772,7 +772,7 @@ packages:
     description:
       path: "."
       ref: "v0.73.0"
-      resolved-ref: 8a20c0c8c741722f1fbf4b764f60b82662ec408a
+      resolved-ref: "8a20c0c8c741722f1fbf4b764f60b82662ec408a"
       url: "https://github.com/zka32101/ukalab_core.git"
     source: git
     version: "0.73.0"
