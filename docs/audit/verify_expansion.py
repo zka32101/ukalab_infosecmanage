@@ -40,8 +40,13 @@ if base:
             fail(f'既存問題が変更されている: {q["qid"]}')
     ot = {t['termId']: t for t in oldt}
     for t in T:
-        if t['termId'] in ot and t != ot[t['termId']]:
-            fail(f'既存用語が変更されている: {t["termId"]}')
+        if t['termId'] in ot:
+            o = ot[t['termId']]
+            # relatedQuestionIds への追記(既存IDを保ったまま末尾に足す)だけは許容する
+            same = {k: v for k, v in t.items() if k != 'relatedQuestionIds'} == {k: v for k, v in o.items() if k != 'relatedQuestionIds'}
+            kept = t['relatedQuestionIds'][:len(o['relatedQuestionIds'])] == o['relatedQuestionIds']
+            if not (same and kept):
+                fail(f'既存用語が変更されている: {t["termId"]}')
     newq = [q for q in Q if q['qid'] not in oq]
 c1 = count(Q, '変更後')
 if base:
@@ -86,6 +91,9 @@ def bias(qs, label):
                 if i == q['answerIndex']: ac += 1
                 else: aw += 1
     n = len(qs)
+    if n == 0:
+        print(f'{label}(0問): 対象なし')
+        return
     print(f'{label}({n}問): 正解位置 {[pos[i] for i in range(4)]} / 正解が最長(同率込み) {longest} ({longest/n:.0%}) / 次点の1.5倍以上 {ge} / 断定語を含む選択肢 正解{ac}・誤答{aw}')
 bias(newq, '追加分')
 bias([q for q in newq if q['subjectId'] == 'kamoku_a'], '追加分 科目A')
