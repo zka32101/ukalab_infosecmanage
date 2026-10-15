@@ -20,6 +20,7 @@ import 'reading_screen.dart';
 import 'route_planner_screen.dart';
 import 'terms_screen.dart';
 
+import '../widgets/cert_prop.dart';
 import '../widgets/overflow_safe.dart';
 
 /// 「ホーム」タブ。推し・学習コインを表示（決定67〜77）。
@@ -54,11 +55,25 @@ class HomeScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('うかラボ 情報セキュリティマネジメント', style: theme.textTheme.titleLarge),
-          const SizedBox(height: 4),
-          Text(
-            '情報セキュリティマネジメント試験 対策（IPA・情報処理推進機構とは無関係の非公式アプリ）',
-            style: theme.textTheme.bodySmall,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('うかラボ 情報セキュリティマネジメント', style: theme.textTheme.titleLarge),
+                    const SizedBox(height: 4),
+                    Text(
+                      '情報セキュリティマネジメント試験 対策（IPA・情報処理推進機構とは無関係の非公式アプリ）',
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              const CertPropAccent(),
+            ],
           ),
           const SizedBox(height: 16),
           OshiCard(
