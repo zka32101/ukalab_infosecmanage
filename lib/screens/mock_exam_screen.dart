@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukalab_core/mock_exam_history.dart';
 import 'package:ukalab_core/ukalab_core.dart';
 
+import '../data/feature_flags.dart';
 import '../data/progress_store.dart';
 import '../widgets/oshi_card.dart';
 import '../widgets/overflow_safe.dart';
@@ -120,6 +121,7 @@ class _MockExamScreenState extends ConsumerState<MockExamScreen> {
         pool: widget.questions,
         level: level,
         seed: DateTime.now().millisecondsSinceEpoch,
+        allowedTypes: kMockExamAllowedTypes,
       )..shuffle();
       _answers.clear();
       _choiceOrder.clear();
@@ -138,6 +140,7 @@ class _MockExamScreenState extends ConsumerState<MockExamScreen> {
         subjectIds: subjectIds,
         count: count,
         seed: DateTime.now().millisecondsSinceEpoch,
+        allowedTypes: kMockExamAllowedTypes,
       )..shuffle();
       _answers.clear();
       _choiceOrder.clear();

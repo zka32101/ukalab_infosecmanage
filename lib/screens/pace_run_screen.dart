@@ -4,6 +4,7 @@ import 'package:app_common_kit/app_common_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:ukalab_core/ukalab_core.dart';
 
+import '../data/feature_flags.dart';
 import '../widgets/overflow_safe.dart';
 
 /// 「100問ペース走」画面（型④の直前版、決定76）。
@@ -34,6 +35,9 @@ class _PaceRunScreenState extends State<PaceRunScreen> {
   int _correct = 0;
   List<Question> _picked = const [];
 
+  /// 選択式前提の画面なので、新タイプはフラグに関わらず除く。
+  late final List<Question> _selectable = withoutNewTypes(widget.questions);
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -41,8 +45,9 @@ class _PaceRunScreenState extends State<PaceRunScreen> {
   }
 
   void _start() {
-    final count = PaceRunScreen._config.questionCount.clamp(1, widget.questions.length);
-    final picked = List<Question>.from(widget.questions)..shuffle();
+    // 選択式前提の画面。新タイプはフラグに関わらず出さない。
+    final picked = List<Question>.from(_selectable)..shuffle();
+    final count = PaceRunScreen._config.questionCount.clamp(1, picked.length);
     setState(() {
       _picked = picked.take(count).toList();
       _flagged.clear();
@@ -90,7 +95,7 @@ class _PaceRunScreenState extends State<PaceRunScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.questions.isEmpty) {
+    if (_selectable.isEmpty) {
       return const ScrollableCenter(child: EmptyState(message: '問題データがまだありません。'));
     }
     if (!_started) return _buildIntro(context);
