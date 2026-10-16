@@ -14,7 +14,7 @@ import 'package:ukalab_infosecmanage/screens/pace_run_screen.dart';
 
 import 'test_support.dart';
 
-// 新タイプの問題はテスト内の最小フィクスチャ（出荷する assets には入れない）。
+// 新タイプの挙動の検証はテスト内の最小フィクスチャで行う（出荷データの新タイプは multi_angle_data_test.dart で検査）。
 
 Question _base(String id, QuestionType type,
         {String prompt = '', bool? answerBool, List<ClozeBlank> blanks = const [], String? clue,
