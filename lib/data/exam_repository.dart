@@ -7,6 +7,13 @@ import 'package:ukalab_core/ukalab_core.dart';
 
 import 'feature_flags.dart';
 
+/// 問題データの assets。新形式（○×・空欄補充・説明から用語）は別ファイルに分けて出荷する。
+/// 新形式はフラグ [kNewQuestionTypesEnabled] が false の間は出題に出ない。
+const questionAssetPaths = <String>[
+  'assets/questions/info_security.jsonl',
+  'assets/questions/info_security_multi_angle.jsonl',
+];
+
 /// 情報セキュリティマネジメントの試験定義・問題データ・用語データ・解説読み物を assets から読み込む。
 class ExamData {
   const ExamData({
@@ -51,8 +58,15 @@ Future<ExamData> loadExamData() async {
   final examText = await rootBundle.loadString('assets/exam/info_security.json');
   final exam = ExamConfig.fromJson(jsonDecode(examText) as Map<String, dynamic>);
 
-  final jsonl = await rootBundle.loadString('assets/questions/info_security.jsonl');
-  final parsed = parseQuestionsJsonl(jsonl);
+  // 問題ファイルは複数（本体 + 新形式の multi-angle）。順に読んで 1 つの出題プールにまとめる。
+  final parsedList = <ParsedQuestions>[];
+  for (final path in questionAssetPaths) {
+    parsedList.add(parseQuestionsJsonl(await rootBundle.loadString(path)));
+  }
+  final parsed = ParsedQuestions(
+    [for (final p in parsedList) ...p.questions],
+    [for (final p in parsedList) ...p.issues],
+  );
 
   final termsJsonl = await rootBundle.loadString('assets/terms/info_security.jsonl');
   final parsedTerms = parseTermsJsonl(termsJsonl);
