@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### 修正
+- リリースビルドでテスト広告IDが残っていても起動時に落ちないようにした（`AdGate.init` の失敗はログに出して広告なしで続行）。広告の表示場所・価格・商品ID・ゲート内容は変更なし
+- iOS でも RevenueCat を使えるようにした（`--dart-define=RC_APPLE_KEY=...`。未指定なら従来どおり仮の購入サービス）
+
 ### Added
 - 科目Bの長文事例9セット36問（`info_security-1038`〜`1073`、`scenario:s26`〜`s34`）を追加し1,042問に。テレワーク・リスク対応・事業継続（RTO/RPO）・認証/職務分掌・OSS脆弱性管理・常駐要員・規程の運用を扱う。自作の仮データで専門確認前。関連する用語32件の `relatedQuestionIds` に追記。
 - 問題を84問追加し1,006問に（科目A +72: cloud_iot / human / physical / secure_dev / standards / 委託先管理 ほか、科目B +12: 長文事例3セット）。用語12語を追加し318語に。追加分は自作の仮データで専門確認前。件数確認用に `docs/audit/verify_expansion.py` を追加。

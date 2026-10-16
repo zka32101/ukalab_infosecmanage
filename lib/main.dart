@@ -25,6 +25,7 @@ import 'screens/record_screen.dart';
 import 'screens/settings_screen.dart';
 import 'services/local_reminder_notifier.dart';
 import 'services/no_ads_backend.dart';
+import 'services/startup_safety.dart';
 
 /// Google公式のテスト広告ユニットID。本番公開前に実際のIDへ差し替える（決定35）。
 AdUnitIds _adUnitIds() => kIsWeb
@@ -44,11 +45,19 @@ AdUnitIds _adUnitIds() => kIsWeb
         rewarded: 'ca-app-pub-3940256099942544/5224354917',
       );
 
-/// RevenueCat の公開SDKキー（Google Play 用）。ビルド時に
-/// `--dart-define=RC_GOOGLE_KEY=goog_...` で渡す。コミットしない。
-/// 未指定（空）の間は、これまでどおり仮の購入サービス（FakeEntitlementService）で動く。
+/// RevenueCat の公開SDKキー。ビルド時に `--dart-define` で渡す。コミットしない。
+/// Android は `RC_GOOGLE_KEY=goog_...`、iOS は `RC_APPLE_KEY=appl_...`。
+/// 使うプラットフォームのキーが未指定（空）の間は、これまでどおり仮の購入サービス
+/// （FakeEntitlementService）で動く。
 const _rcGoogleKey = String.fromEnvironment('RC_GOOGLE_KEY');
-bool get _useRevenueCat => !kIsWeb && Platform.isAndroid && _rcGoogleKey.isNotEmpty;
+const _rcAppleKey = String.fromEnvironment('RC_APPLE_KEY');
+String? get _rcKey => revenueCatKeyFor(
+      isWeb: kIsWeb,
+      isAndroid: !kIsWeb && Platform.isAndroid,
+      isIOS: !kIsWeb && Platform.isIOS,
+      googleKey: _rcGoogleKey,
+      appleKey: _rcAppleKey,
+    );
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,11 +84,12 @@ void main() async {
   final outfitService = OutfitService(store: SharedPreferencesOutfitStore('info_security'));
   await outfitService.load();
 
-  // 課金。RC_GOOGLE_KEY が渡されたAndroidビルドだけ RevenueCat を使い、それ以外は
+  // 課金。RC_GOOGLE_KEY（Android）/ RC_APPLE_KEY（iOS）が渡されたビルドだけ RevenueCat を使い、それ以外は
   // 仮の購入サービス。価格（仮サービス側）は競合調査を踏まえた暫定値で、運営者確認が必要（決定14）。
   // RevenueCat 側は entitlement ID を 'noads' / 'premium'、商品を現行オファリングに登録する。
-  final EntitlementService entitlementService = _useRevenueCat
-      ? await RevenueCatEntitlementService.init(publicSdkKey: _rcGoogleKey)
+  final rcKey = _rcKey;
+  final EntitlementService entitlementService = rcKey != null
+      ? await RevenueCatEntitlementService.init(publicSdkKey: rcKey)
       : FakeEntitlementService(
     availableOffers: const [
       EntitlementOffer(
@@ -102,12 +112,16 @@ void main() async {
   );
 
   // 広告（AdMob、決定35）。noads/premiumの間は何も表示しない。
-  final adGate = await AdGate.init(
-    config: AdConfig(unitIds: _adUnitIds()),
-    // Web には広告SDK（google_mobile_ads）が無いため、広告を出さない実装にする。
-    backend: kIsWeb ? NoAdsBackend() : null,
-    adsHidden: () => entitlementService.state.adsHidden,
-    isRelease: kReleaseMode,
+  // リリースビルドでテスト広告IDが残っていると AdGate.init が例外を投げるため、
+  // 失敗しても起動を止めず、広告なしで続ける（理由はログに出す）。
+  final adGate = await initAdGateOrNoAds(
+    init: () => AdGate.init(
+      config: AdConfig(unitIds: _adUnitIds()),
+      // Web には広告SDK（google_mobile_ads）が無いため、広告を出さない実装にする。
+      backend: kIsWeb ? NoAdsBackend() : null,
+      adsHidden: () => entitlementService.state.adsHidden,
+      isRelease: kReleaseMode,
+    ),
   );
 
   // 全国平均点・偏差値の匿名集計（決定32）。Firebaseプロジェクトを取得後、
