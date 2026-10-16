@@ -12,7 +12,7 @@
 - iOS でも RevenueCat を使えるようにした（`--dart-define=RC_APPLE_KEY=...`。未指定なら従来どおり仮の購入サービス）
 
 ### Added
-- 既存問題のうち363問に `conceptId`（対応する用語の `termId`）を付与（うち科目Bの事例13問は `angle: scenario`）。用語の `relatedQuestionIds` に載っており、かつ用語名が問題文または正解選択肢に現れ、候補が1語に定まるものだけを機械的に対応づけた。残り679問は未付与（用語との対応なし491 / 複数用語で特定できない102 / 本文に用語名が無い86）。問題文・選択肢・正解・解説は変更なし。画面の挙動も変わらない（`kNewQuestionTypesEnabled` は false のまま）。
+- 既存問題のうち366問に `conceptId`（対応する用語の `termId`）を付与（うち科目Bの事例13問は `angle: scenario`）。用語の `relatedQuestionIds` に載っており、かつ用語名が問題文または正解選択肢に現れ、候補が1語に定まるものだけを機械的に対応づけた。残り676問は未付与（用語との対応なし491 / 複数用語で特定できない92 / 本文に用語名が無い93）。問題文・選択肢・正解・解説は変更なし。画面の挙動も変わらない（`kNewQuestionTypesEnabled` は false のまま）。
 - 科目Bの長文事例9セット36問（`info_security-1038`〜`1073`、`scenario:s26`〜`s34`）を追加し1,042問に。テレワーク・リスク対応・事業継続（RTO/RPO）・認証/職務分掌・OSS脆弱性管理・常駐要員・規程の運用を扱う。自作の仮データで専門確認前。関連する用語32件の `relatedQuestionIds` に追記。
 - 問題を84問追加し1,006問に（科目A +72: cloud_iot / human / physical / secure_dev / standards / 委託先管理 ほか、科目B +12: 長文事例3セット）。用語12語を追加し318語に。追加分は自作の仮データで専門確認前。件数確認用に `docs/audit/verify_expansion.py` を追加。
 - 科目Bの長文事例22セット89問（事例文約220〜280字＋設問4〜5問）を追加。各設問に事例文を含め、`tags` に `scenario:sNN` を付与。
