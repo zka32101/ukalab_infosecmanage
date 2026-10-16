@@ -59,7 +59,7 @@ void main() {
     await pumpLearn(tester, [_q('A'), _q('B')]);
     final first = shown();
     final other = first == 'A' ? 'B' : 'A';
-    expect(find.text('1 / 2問目'), findsOneWidget);
+    expect(find.text('第1問 / 2問'), findsOneWidget);
 
     await tester.tap(find.text('$firstの誤り1'));
     await tester.pumpAndSettle();
@@ -70,8 +70,8 @@ void main() {
       expect(find.text('問題$otherの文'), findsNothing);
       expect(find.text('$firstの正解'), findsOneWidget);
       expect(find.text('$otherの正解'), findsNothing);
-      expect(find.text('1 / 2問目'), findsOneWidget);
-      expect(find.text('2 / 2問目'), findsNothing);
+      expect(find.text('第1問 / 2問'), findsOneWidget);
+      expect(find.text('第2問 / 2問'), findsNothing);
     }
 
     check();
@@ -93,7 +93,7 @@ void main() {
     await tester.tap(find.text('次へ'));
     await tester.pumpAndSettle();
     expect(find.text('問題$otherの文'), findsOneWidget);
-    expect(find.text('2 / 2問目'), findsOneWidget);
+    expect(find.text('第2問 / 2問'), findsOneWidget);
     expect(find.text('解説$firstの本文'), findsNothing);
     expect(find.text('解説'), findsNothing);
   });
@@ -102,14 +102,14 @@ void main() {
     await pumpLearn(tester, [_q('A'), _q('B')]);
     for (var n = 1; n <= 2; n++) {
       final cur = shown();
-      expect(find.text('$n / 2問目'), findsOneWidget);
+      expect(find.text('第$n問 / 2問'), findsOneWidget);
       await tester.tap(find.text('$curの正解'));
       await tester.pumpAndSettle();
       rebuildParent(() {});
       await tester.pumpAndSettle();
       expect(find.text('解説$curの本文'), findsOneWidget);
       expect(find.byType(ResultSummary), findsNothing);
-      expect(find.text('$n / 2問目'), findsOneWidget);
+      expect(find.text('第$n問 / 2問'), findsOneWidget);
       await tester.ensureVisible(find.text('次へ'));
       await tester.tap(find.text('次へ'));
       await tester.pumpAndSettle();
