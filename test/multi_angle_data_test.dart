@@ -16,14 +16,14 @@ void main() {
     added = data.questions.where((q) => q.qid.startsWith('info_security-ma-')).toList();
   });
 
-  test('新形式問題は 36 問（12 概念 x ○×・空欄補充・説明から用語）で、qid は既存と重複しない', () {
-    expect(added.length, 36);
+  test('新形式問題は 72 問（24 概念 x ○×・空欄補充・説明から用語）で、qid は既存と重複しない', () {
+    expect(added.length, 72);
     final ids = data.questions.map((q) => q.qid).toList();
     expect(ids.toSet().length, ids.length);
-    expect(added.where((q) => q.type == QuestionType.trueFalse).length, 12);
-    expect(added.where((q) => q.type == QuestionType.cloze).length, 12);
-    expect(added.where((q) => q.type == QuestionType.reverseLookup).length, 12);
-    expect(data.questions.length, 1042 + 36);
+    expect(added.where((q) => q.type == QuestionType.trueFalse).length, 24);
+    expect(added.where((q) => q.type == QuestionType.cloze).length, 24);
+    expect(added.where((q) => q.type == QuestionType.reverseLookup).length, 24);
+    expect(data.questions.length, 1042 + 72);
   });
 
   test('全問 ai-draft・original・conceptId が実在する用語を指し、観点が形式に対応する', () {
@@ -39,7 +39,7 @@ void main() {
     for (final q in added) {
       byConcept.putIfAbsent(q.conceptId!, () => {}).add(q.angle!);
     }
-    expect(byConcept.length, 12);
+    expect(byConcept.length, 24);
     for (final e in byConcept.entries) {
       expect(e.value, {QuestionAngle.trueFalse, QuestionAngle.cloze, QuestionAngle.reverse}, reason: e.key);
     }
