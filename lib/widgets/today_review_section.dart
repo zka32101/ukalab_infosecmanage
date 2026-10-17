@@ -1,8 +1,10 @@
+import 'package:app_common_kit/app_common_kit.dart' show EntitlementState, entitlementStateProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukalab_core/ui.dart';
 
 import '../data/history_store.dart';
+import '../data/mock_exam_quota.dart';
 import '../data/mistake_notes.dart';
 import '../data/review_schedule.dart';
 
@@ -26,7 +28,13 @@ class TodayReviewSection extends ConsumerStatefulWidget {
   ConsumerState<TodayReviewSection> createState() => _TodayReviewSectionState();
 }
 
+/// 無料版の「今日の復習」の1日の件数(方針 D6)。
+const _freeReviewPerDay = 10;
+
 class _TodayReviewSectionState extends ConsumerState<TodayReviewSection> {
+  /// 無料版の今日の残り回数。読み込み前・プレミアムは null(制限しない)。
+  int? _freeRemaining;
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +50,8 @@ class _TodayReviewSectionState extends ConsumerState<TodayReviewSection> {
       if (!mounted) return;
       final notes = mistakeNoteEngine.update(stored, ref.read(historyProvider));
       await ref.read(reviewScheduleProvider.notifier).sync(notes);
+      final remaining = (await todayReviewQuota(isPremium: false)).remaining;
+      if (mounted) setState(() => _freeRemaining = remaining);
     } catch (_) {
       // 読めなければ件数 0 のまま(静かに「おやすみ」表示)。
     }
@@ -51,8 +61,42 @@ class _TodayReviewSectionState extends ConsumerState<TodayReviewSection> {
   Widget build(BuildContext context) {
     ref.listen(historyProvider, (_, __) => _sync());
     final items = ref.watch(reviewScheduleProvider);
+    var due = reviewSchedulerEngine.dueCount(items, widget.clock());
+    // 無料版は1日の復習が決まった数まで(プレミアムは無制限)。
+    final isPremium = (ref.watch(entitlementStateProvider).valueOrNull ?? EntitlementState.free).hasPremium;
+    final remaining = isPremium ? null : _freeRemaining;
+    if (remaining != null) {
+      if (remaining <= 0 && due > 0) {
+        return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('今日の復習', style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 4),
+                const Text(
+                  '無料版の今日の復習($_freeReviewPerDay問)は終わりました。\n'
+                  '続きは明日。プレミアムなら、続けて復習できます(間違いノートは、いつでも開けます)。',
+                ),
+                const SizedBox(height: 8),
+                OutlinedButton(
+                  onPressed: () async {
+                    await widget.onStart();
+                    if (mounted) await _sync();
+                  },
+                  child: const Text('間違いノートを開く'),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+      if (due > remaining) due = remaining;
+    }
     return TodayReviewCard(
-      dueCount: reviewSchedulerEngine.dueCount(items, widget.clock()),
+      dueCount: due,
       onStart: () async {
         await widget.onStart();
         if (mounted) await _sync();
