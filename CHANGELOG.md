@@ -8,10 +8,14 @@
 - 模擬試験・100問ペース走はフラグに関わらず新タイプを出さない
 
 ### 修正
+- 間違いノートと用語読み物の関連問題ラベルで、問題文の表示を `displayPrompt`（ukalab_core v0.76.0）に変更。新形式問題が混ざっても一覧で意味のある文になる。選択式の表示は従来どおり。ukalab_core を v0.75.0 → v0.76.0 に更新（`kNewQuestionTypesEnabled` は false のまま）
 - リリースビルドでテスト広告IDが残っていても起動時に落ちないようにした（`AdGate.init` の失敗はログに出して広告なしで続行）。広告の表示場所・価格・商品ID・ゲート内容は変更なし
 - iOS でも RevenueCat を使えるようにした（`--dart-define=RC_APPLE_KEY=...`。未指定なら従来どおり仮の購入サービス）
 
 ### Added
+- 新形式問題を36問追加し、`info_security_multi_angle.jsonl` を計72問に（qid は `info_security-ma-0037`〜`0072`）。観点が1つしか無かった12概念（完全性・否認防止・XSS・公開鍵暗号・ファイアウォール・DMZ・多層防御・認証局・セッションハイジャック・ソルト・CSRF・3-2-1ルール）に、○×・空欄補充・説明から用語を1問ずつ。全問 `ai-draft`・自作の仮データで専門確認前。内容は既存の用語集・解説に基づく。**`kNewQuestionTypesEnabled` は false のままで、本番の出題・画面は変わらない**（出題プールは従来の1,042問）。
+- 新形式問題（○×・空欄補充・説明から用語）を36問追加（`assets/questions/info_security_multi_angle.jsonl`、qid は `info_security-ma-0001`〜`0036`）。conceptId 付与済みの12概念（可用性・SQLインジェクション・中間者攻撃・デジタル署名・ハッシュ関数・WAF・TLS・ブルートフォース攻撃・スニッフィング・ロールバック・TCP・リプレイ攻撃）のうち、観点が1つしか無かったものを選び、概念あたり ○×・空欄補充・説明から用語の3観点を追加。全問 `ai-draft`・自作の仮データで専門確認前。内容は既存の用語集・解説に基づく。**`kNewQuestionTypesEnabled` は false のままで、本番の出題・画面は変わらない**（出題プールは従来の1,042問）。`loadExamData` が問題ファイルを複数読むようにし、CI の `validate_content` に新ファイルと `--angle-report=md` を追加。
+- 既存問題のうち366問に `conceptId`（対応する用語の `termId`）を付与（うち科目Bの事例13問は `angle: scenario`）。用語の `relatedQuestionIds` に載っており、かつ用語名が問題文または正解選択肢に現れ、候補が1語に定まるものだけを機械的に対応づけた。残り676問は未付与（用語との対応なし491 / 複数用語で特定できない92 / 本文に用語名が無い93）。問題文・選択肢・正解・解説は変更なし。画面の挙動も変わらない（`kNewQuestionTypesEnabled` は false のまま）。
 - 科目Bの長文事例9セット36問（`info_security-1038`〜`1073`、`scenario:s26`〜`s34`）を追加し1,042問に。テレワーク・リスク対応・事業継続（RTO/RPO）・認証/職務分掌・OSS脆弱性管理・常駐要員・規程の運用を扱う。自作の仮データで専門確認前。関連する用語32件の `relatedQuestionIds` に追記。
 - 問題を84問追加し1,006問に（科目A +72: cloud_iot / human / physical / secure_dev / standards / 委託先管理 ほか、科目B +12: 長文事例3セット）。用語12語を追加し318語に。追加分は自作の仮データで専門確認前。件数確認用に `docs/audit/verify_expansion.py` を追加。
 - 科目Bの長文事例22セット89問（事例文約220〜280字＋設問4〜5問）を追加。各設問に事例文を含め、`tags` に `scenario:sNN` を付与。

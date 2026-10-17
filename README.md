@@ -52,5 +52,5 @@ python3 docs/audit/verify_expansion.py   # 件数・ID重複・正解範囲・�
 ## 現状
 
 - 問題1,042問（目標1,000問程度に到達）・用語318語は**全て自作の初期サンプル（運営者確認前の仮データ）**。追加分（`info_security-0954`〜`1037` の84問と用語12語、および `1038`〜`1073` の科目B 36問）も仮データで専門確認前。公開前に一次資料での裏取りと運営者確認が必要（確認の優先順は `docs/content_review_checklist.md`）。IPAの過去問・シラバスは転載していない。
-- 広告はテスト用ID、課金は `FakeEntitlementService`（仮）。
+- 広告はテスト用ID（Google 公式）。課金は、ビルド時に `RC_GOOGLE_KEY`（Android）／`RC_APPLE_KEY`（iOS）を `--dart-define` で渡したビルドだけ RevenueCat が有効で、それ以外は `FakeEntitlementService`（実際の決済なし）。リリースビルドにテスト用IDが残ると `AdGate` の初期化が失敗し、起動は止めずに広告なしで続行する設計（`lib/services/startup_safety.dart`）。ストア向けビルドでの実機確認は未確認。
 - アイコンは盾と鍵のシンボルに差し替え済み（うかラボ共通テンプレート。最終デザインは要確認）。パッケージID（`com.yourwish.ukalab.infosecmanage`）は本番用に確認が必要。
