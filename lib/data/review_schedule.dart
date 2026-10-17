@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ukalab_core/ui.dart';
 import 'package:ukalab_core/ukalab_core.dart';
 
+import 'mock_exam_quota.dart';
+
 /// 「今日の復習」(ukalab_core の [ReviewSchedulerEngine])を、このアプリの間違いノートにつなぐ部分。
 /// 復習の対象は間違いノートの「これから」の問題だけ(`lib/data/mistake_notes.dart`)。
 /// 保存先は端末内(キー `ukalab_infosecmanage_review_schedule`)。保存するのは問題ID・段・日付・分野IDのみ。
@@ -48,9 +50,15 @@ class ReviewScheduleNotifier extends Notifier<List<ReviewItem>> {
   /// 1問の結果を反映する。復習予定に無い問題は変わらない。[now] は解答履歴の時刻と同じものを渡す。
   Future<void> applyResult(String qid, {required bool correct, required DateTime now}) async {
     await _loaded;
-    if (!state.any((i) => i.qid == qid)) return;
+    final target = state.where((i) => i.qid == qid).firstOrNull;
+    if (target == null) return;
+    // 期限が来ていた復習に答えたときだけ、1日の回数に数える(復習の案内の無料枠用)。
+    final wasDue = reviewSchedulerEngine.isDue(target, now);
     state = reviewSchedulerEngine.applyResult(state, qid, correct: correct, now: now);
     await reviewSchedulerStore.write(state);
+    if (wasDue) {
+      await (await todayReviewQuota(isPremium: false)).tryConsume();
+    }
   }
 }
 
