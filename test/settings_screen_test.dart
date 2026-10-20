@@ -7,8 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ukalab_core/ui.dart' show FileSaver;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ukalab_core/ukalab_core.dart' show ProgressRecord;
-import 'package:ukalab_infosecmanage/data/history_store.dart';
+import 'package:ukalab_core/ukalab_core.dart' show ProgressRecord, encodeHistory;
 import 'package:ukalab_infosecmanage/screens/settings_screen.dart';
 
 import 'test_support.dart';
