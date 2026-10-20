@@ -61,6 +61,10 @@ void main() {
     });
     await tester.pumpAndSettle();
 
+    // 用語集の入口は「学ぶ」タブにある（ホームには置かない）。
+    expect(find.text('用語集'), findsNothing);
+    await tester.tap(find.text('学ぶ'));
+    await tester.pumpAndSettle();
     await tester.ensureVisible(find.text('用語集'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('用語集'));
@@ -81,6 +85,24 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('ホームは「今日 / 記録 / 試験」に整理され、移した入口は「学ぶ」タブから全て届く', (tester) async {
+    await tester.runAsync(() async {
+      await tester.pumpWidget(await _app());
+      await Future.delayed(const Duration(milliseconds: 300));
+    });
+    await tester.pumpAndSettle();
+
+    for (final t in ['今日やること', '記録', '試験に向けて']) {
+      expect(find.text(t), findsWidgets, reason: 'ホームの見出し $t');
+    }
+
+    await tester.tap(find.text('学ぶ'));
+    await tester.pumpAndSettle();
+    for (final t in ['間違いノート', 'ブックマーク', '自分用メモ', '用語集', '分野ごとの解説読み物']) {
+      expect(find.text(t, skipOffstage: false), findsOneWidget, reason: '学ぶタブの入口 $t');
+    }
   });
 
   testWidgets('最短ルートプランナーを開くと今日やるタスクが出る（科目は2つ）', (tester) async {
