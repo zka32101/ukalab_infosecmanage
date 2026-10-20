@@ -137,6 +137,10 @@ void main() {
   });
 
   testWidgets('設定タブで購入すると購入済み表示になる', (tester) async {
+    // 設定にプレミアム紹介カードが加わって長くなったので、縦に長い画面で全項目を描画する。
+    tester.view.physicalSize = const Size(800, 6000);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
     await tester.runAsync(() async {
       await tester.pumpWidget(await _app());
       await Future.delayed(const Duration(milliseconds: 300));

@@ -8,6 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ukalab_core/ui.dart' show FileSaver;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ukalab_core/ukalab_core.dart' show ProgressRecord, encodeHistory;
+import 'package:ukalab_infosecmanage/data/history_store.dart' show historyProvider;
 import 'package:ukalab_infosecmanage/screens/settings_screen.dart';
 
 import 'test_support.dart';
@@ -49,6 +50,14 @@ Widget _app(
       ),
     );
 
+/// 設定は項目が多く、ListView は画面外を描画しない。縦に長い画面で全項目を描画してから組む。
+Future<void> _pump(WidgetTester tester, Widget app) async {
+  tester.view.physicalSize = const Size(800, 6000);
+  tester.view.devicePixelRatio = 1.0;
+  addTearDown(tester.view.reset);
+  await tester.pumpWidget(app);
+}
+
 void main() {
   testWidgets('バージョンは固定文字でなく、実際の版を表示する', (tester) async {
     PackageInfo.setMockInitialValues(
@@ -58,7 +67,7 @@ void main() {
       buildNumber: '42',
       buildSignature: '',
     );
-    await tester.pumpWidget(_app(_service()));
+    await _pump(tester, _app(_service()));
     await tester.pumpAndSettle();
 
     expect(find.text('9.8.7'), findsOneWidget);
@@ -66,7 +75,7 @@ void main() {
   });
 
   testWidgets('無料の間は購入ボタンが出る', (tester) async {
-    await tester.pumpWidget(_app(_service()));
+    await _pump(tester, _app(_service()));
     await tester.pumpAndSettle();
 
     expect(find.text('広告非表示'), findsOneWidget);
@@ -76,7 +85,7 @@ void main() {
 
   testWidgets('購入すると購入済み表示になり、ボタンが消える', (tester) async {
     final service = _service();
-    await tester.pumpWidget(_app(service));
+    await _pump(tester, _app(service));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('¥480'));
@@ -88,7 +97,7 @@ void main() {
   });
 
   testWidgets('復元できる購入がなければその旨を表示する', (tester) async {
-    await tester.pumpWidget(_app(_service()));
+    await _pump(tester, _app(_service()));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('購入を復元'));
@@ -99,7 +108,7 @@ void main() {
 
   testWidgets('復元できる購入があれば購入済み表示になる', (tester) async {
     final service = _service()..restorable = const EntitlementState(hasPremium: true);
-    await tester.pumpWidget(_app(service));
+    await _pump(tester, _app(service));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('購入を復元'));
@@ -110,7 +119,7 @@ void main() {
   });
 
   testWidgets('設定画面の相互紹介は、掲載リストが空（Firebase無し）なら何も出ず例外にもならない', (tester) async {
-    await tester.pumpWidget(_app(_service()));
+    await _pump(tester, _app(_service()));
     await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
@@ -118,15 +127,8 @@ void main() {
   });
 
   group('プレミアムの紹介カード', () {
-    void tall(WidgetTester tester) {
-      tester.view.physicalSize = const Size(800, 4000);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
-    }
-
     testWidgets('無料の間は、このアプリで使える機能だけが並ぶ', (tester) async {
-      tall(tester);
-      await tester.pumpWidget(_app(_service()));
+      await _pump(tester, _app(_service()));
       await tester.pumpAndSettle();
 
       expect(find.text('プレミアムでできること'), findsOneWidget);
@@ -147,9 +149,8 @@ void main() {
     });
 
     testWidgets('広告非表示だけの購入では、まだ紹介カードが出る', (tester) async {
-      tall(tester);
       final service = _service()..restorable = const EntitlementState(hasNoAds: true);
-      await tester.pumpWidget(_app(service));
+      await _pump(tester, _app(service));
       await tester.pumpAndSettle();
       await tester.tap(find.text('購入を復元'));
       await tester.pumpAndSettle();
@@ -159,8 +160,7 @@ void main() {
     });
 
     testWidgets('プレミアム購入後は紹介カードが消える', (tester) async {
-      tall(tester);
-      await tester.pumpWidget(_app(_service()));
+      await _pump(tester, _app(_service()));
       await tester.pumpAndSettle();
       expect(find.text('プレミアムでできること'), findsOneWidget);
 
@@ -192,6 +192,9 @@ void main() {
     }
 
     Future<void> settle(WidgetTester tester) async {
+      // 設定画面は履歴を押したときに初めて読むので、先に読み込みを始めておく。
+      ProviderScope.containerOf(tester.element(find.byType(SettingsScreen)))
+          .read(historyProvider);
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
       await tester.pump();
       await tester.pump();
@@ -207,7 +210,7 @@ void main() {
     testWidgets('履歴があれば、BOM付きUTF-8のCSVを所定のファイル名で保存に渡す', (tester) async {
       final calls = <({List<int> bytes, String fileName, String mimeType})>[];
       seedHistory();
-      await tester.pumpWidget(_app(
+      await _pump(tester, _app(
         _service(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async {
@@ -234,7 +237,7 @@ void main() {
     testWidgets('履歴が空なら保存を呼ばず、その旨を表示する', (tester) async {
       SharedPreferences.setMockInitialValues({});
       var called = false;
-      await tester.pumpWidget(_app(
+      await _pump(tester, _app(
         _service(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async {
@@ -251,7 +254,7 @@ void main() {
 
     testWidgets('保存に失敗したら、失敗の文言を表示する', (tester) async {
       seedHistory();
-      await tester.pumpWidget(_app(
+      await _pump(tester, _app(
         _service(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
@@ -266,7 +269,7 @@ void main() {
 
     testWidgets('共有シートを閉じたとき（false）は、完了の文言を出さない', (tester) async {
       seedHistory();
-      await tester.pumpWidget(_app(
+      await _pump(tester, _app(
         _service(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
