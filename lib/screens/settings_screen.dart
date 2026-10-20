@@ -1,10 +1,16 @@
 import 'package:app_common_kit/app_common_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ukalab_core/ui.dart' show DataManagementSection;
-import 'package:ukalab_core/ukalab_core.dart' show ExamConfig, Question, Term, historyCsv;
+import 'package:ukalab_core/ui.dart'
+    show
+        DataManagementSection,
+        ExamPrepStrings,
+        FileSaver,
+        PremiumBenefitsCard,
+        historyCsvFileName,
+        shareCsv;
+import 'package:ukalab_core/ukalab_core.dart' show ExamConfig, PremiumFeature, Question, Term, historyCsv;
 
 import 'package:ukalab_core/cross_promo.dart' show UkalabCrossPromoSection;
 import 'package:ukalab_core/daily_goal.dart' show DailyGoalSetting;
@@ -16,6 +22,16 @@ import 'exam_prep_entry.dart';
 import '../peer/peer_stats_settings_tile.dart';
 import 'mistake_note_screen.dart';
 
+/// 設定の購入節に出す、このアプリで使えるプレミアム機能（core の PremiumFeature のうち実装済みのもの）。
+const _premiumBenefitFeatures = <PremiumFeature>[
+  PremiumFeature.weakDrill,
+  PremiumFeature.examEveMode,
+  PremiumFeature.tenMinutePlan,
+  PremiumFeature.historyExport,
+  PremiumFeature.mockExamHistory,
+  PremiumFeature.readingReadAloud,
+];
+
 /// 「設定」タブ。課金（決定35）の購入・復元を提供する。広告はnoads/premiumの
 /// どちらかを持つと自動的に非表示になる（`AdGate.adsHidden`）。
 class SettingsScreen extends ConsumerWidget {
@@ -24,7 +40,15 @@ class SettingsScreen extends ConsumerWidget {
     this.questions = const [],
     this.exam,
     this.terms = const [],
+    this.fileSaver,
+    this.now,
   });
+
+  /// 学習履歴CSVの保存処理（テスト用の差し替え。省略時は core の既定＝Webはダウンロード、他は共有シート）。
+  final FileSaver? fileSaver;
+
+  /// ファイル名の日付に使う現在時刻（テスト用の差し替え）。
+  final DateTime Function()? now;
 
   /// 間違いノートの「解き直す」で演習画面を開くために使う。省略時は間違いノートの入口を出さない。
   final ExamConfig? exam;
@@ -78,9 +102,10 @@ class SettingsScreen extends ConsumerWidget {
           onChanged: (d) => ref.read(examDateProvider.notifier).setDate(d),
         ),
         ListTile(
-          title: const Text('学習履歴をコピー（CSV）'),
+          key: const ValueKey('downloadHistoryCsv'),
+          title: const Text('学習履歴をダウンロード（CSV）'),
           subtitle: const Text('日ごと・分野ごとの解答数と正答率。個人情報は含みません。'),
-          onTap: () => _copyHistory(context, ref),
+          onTap: () => _downloadHistory(context, ref),
         ),
         const Divider(height: 24),
         const Padding(
@@ -88,6 +113,22 @@ class SettingsScreen extends ConsumerWidget {
           child: Text('購入', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         const SizedBox(height: 8),
+        if (!entitlement.hasPremium) ...const [
+          PremiumBenefitsCard(
+            // このアプリで実際に使える機能だけを並べる（カスタム模擬試験は未提供）。
+            features: _premiumBenefitFeatures,
+            showFreeNote: false,
+          ),
+          Padding(
+            key: ValueKey('premiumBenefitsNote'),
+            padding: EdgeInsets.fromLTRB(4, 8, 4, 8),
+            child: Text(
+              '問題と解説は無料で使えます。模擬試験と今日の復習は、無料では回数に上限があり、'
+              'プレミアムでは無制限です。広告は、広告非表示またはプレミアムで表示されなくなります。',
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
+        ],
         if (entitlement.adsHidden)
           ListTile(
             leading: const Icon(Icons.check_circle, color: Colors.green),
@@ -144,14 +185,27 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _copyHistory(BuildContext context, WidgetRef ref) async {
+  Future<void> _downloadHistory(BuildContext context, WidgetRef ref) async {
     final records = ref.read(historyProvider);
-    final message = records.isEmpty ? 'まだ学習履歴がありません。' : '学習履歴をコピーしました。';
-    if (records.isNotEmpty) {
-      await Clipboard.setData(ClipboardData(text: historyCsv(records, questions)));
+    final strings = ExamPrepStrings.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    if (records.isEmpty) {
+      messenger.showSnackBar(const SnackBar(content: Text('まだ学習履歴がありません。')));
+      return;
     }
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    String message;
+    try {
+      final saved = await shareCsv(
+        csv: historyCsv(records, questions),
+        fileName: historyCsvFileName((now ?? DateTime.now)()),
+        saver: fileSaver,
+      );
+      message = saved ? strings.exportSaved : '';
+    } catch (_) {
+      message = strings.exportSaveFailed;
+    }
+    if (message.isEmpty) return;
+    messenger.showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _purchase(BuildContext context, WidgetRef ref, EntitlementOffer offer) async {

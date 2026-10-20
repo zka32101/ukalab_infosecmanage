@@ -1,8 +1,13 @@
 import 'package:app_common_kit/app_common_kit.dart' hide SettingsScreen;
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:ukalab_core/ui.dart' show FileSaver;
+import 'package:ukalab_core/ukalab_core.dart' show Question, QuestionSource;
+import 'package:ukalab_infosecmanage/data/history_store.dart';
 import 'package:ukalab_infosecmanage/screens/settings_screen.dart';
 
 import 'test_support.dart';
@@ -28,13 +33,20 @@ FakeEntitlementService _service() => FakeEntitlementService(
       },
     );
 
-Widget _app(FakeEntitlementService service) => ProviderScope(
+Widget _app(
+  FakeEntitlementService service, {
+  FileSaver? saver,
+  DateTime Function()? now,
+}) =>
+    ProviderScope(
       overrides: [
         entitlementServiceProvider.overrideWithValue(service),
         handsFreeStoreProvider.overrideWithValue(InMemoryHandsFreeStore()),
         ...studyNotesTestOverrides(),
       ],
-      child: const MaterialApp(home: Scaffold(body: SettingsScreen())),
+      child: MaterialApp(
+        home: Scaffold(body: SettingsScreen(fileSaver: saver, now: now)),
+      ),
     );
 
 void main() {
@@ -103,5 +115,169 @@ void main() {
 
     expect(tester.takeException(), isNull);
     expect(find.text('他のアプリもチェック！'), findsNothing);
+  });
+
+  group('プレミアムの紹介カード', () {
+    void tall(WidgetTester tester) {
+      tester.view.physicalSize = const Size(800, 4000);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+    }
+
+    testWidgets('無料の間は、このアプリで使える機能だけが並ぶ', (tester) async {
+      tall(tester);
+      await tester.pumpWidget(_app(_service()));
+      await tester.pumpAndSettle();
+
+      expect(find.text('プレミアムでできること'), findsOneWidget);
+      for (final name in [
+        'weakDrill',
+        'examEveMode',
+        'tenMinutePlan',
+        'historyExport',
+        'mockExamHistory',
+        'readingReadAloud',
+      ]) {
+        expect(find.byKey(ValueKey('premiumBenefit_$name')), findsOneWidget, reason: name);
+      }
+      // 未提供の機能は載せない。core 既定の「無料の範囲」の一文も使わない。
+      expect(find.byKey(const ValueKey('premiumBenefit_customMockExam')), findsNothing);
+      expect(find.byKey(const ValueKey('premiumFreeNote')), findsNothing);
+      expect(find.byKey(const ValueKey('premiumBenefitsNote')), findsOneWidget);
+    });
+
+    testWidgets('広告非表示だけの購入では、まだ紹介カードが出る', (tester) async {
+      tall(tester);
+      final service = _service()..restorable = const EntitlementState(hasNoAds: true);
+      await tester.pumpWidget(_app(service));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('購入を復元'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('広告非表示を購入済みです'), findsOneWidget);
+      expect(find.text('プレミアムでできること'), findsOneWidget);
+    });
+
+    testWidgets('プレミアム購入後は紹介カードが消える', (tester) async {
+      tall(tester);
+      await tester.pumpWidget(_app(_service()));
+      await tester.pumpAndSettle();
+      expect(find.text('プレミアムでできること'), findsOneWidget);
+
+      await tester.tap(find.text('¥1,500'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('プレミアムを購入済みです'), findsOneWidget);
+      expect(find.text('プレミアムでできること'), findsNothing);
+      expect(find.byKey(const ValueKey('premiumBenefitsNote')), findsNothing);
+    });
+  });
+
+  group('学習履歴のCSV（ファイル保存）', () {
+    final fixedNow = DateTime(2026, 10, 20, 9);
+
+    Question q() => const Question(
+          qid: 'q1',
+          examId: 'g',
+          subjectId: 's1',
+          topicId: 'ch1',
+          prompt: 'p',
+          explanation: 'e',
+          source: QuestionSource.original,
+          sourceRef: 'r',
+          contentVer: '1',
+          choices: ['a', 'b'],
+          answerIndex: 0,
+        );
+
+    Future<void> record(WidgetTester tester) async {
+      final c = ProviderScope.containerOf(tester.element(find.byType(SettingsScreen)));
+      await tester.runAsync(() => c.read(historyProvider.notifier).record(
+            q(),
+            correct: true,
+            at: DateTime(2026, 10, 9, 10),
+          ));
+    }
+
+    Future<void> tapDownload(WidgetTester tester) async {
+      final tile = find.byKey(const ValueKey('downloadHistoryCsv'));
+      await tester.ensureVisible(tile);
+      await tester.tap(tile);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('履歴があれば、BOM付きUTF-8のCSVを所定のファイル名で保存に渡す', (tester) async {
+      final calls = <({List<int> bytes, String fileName, String mimeType})>[];
+      await tester.pumpWidget(_app(
+        _service(),
+        now: () => fixedNow,
+        saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async {
+          calls.add((bytes: bytes, fileName: fileName, mimeType: mimeType));
+          return true;
+        },
+      ));
+      await tester.pumpAndSettle();
+      await record(tester);
+      await tapDownload(tester);
+
+      expect(calls, hasLength(1));
+      final call = calls.single;
+      expect(call.fileName, 'ukalab_history_20261020.csv');
+      expect(call.mimeType, 'text/csv');
+      expect(call.bytes.take(3), [0xEF, 0xBB, 0xBF]);
+      final csv = utf8.decode(call.bytes.skip(3).toList());
+      expect(csv, contains('日付,解答数,正答数,正答率(%),学習時間(分)'));
+      expect(csv, contains('2026-10-09,1,1,100.0'));
+      // 個人情報・問題IDの列を持たない。
+      expect(csv, isNot(contains('q1')));
+      expect(find.text('書き出しました'), findsOneWidget);
+    });
+
+    testWidgets('履歴が空なら保存を呼ばず、その旨を表示する', (tester) async {
+      var called = false;
+      await tester.pumpWidget(_app(
+        _service(),
+        now: () => fixedNow,
+        saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async {
+          called = true;
+          return true;
+        },
+      ));
+      await tester.pumpAndSettle();
+      await tapDownload(tester);
+
+      expect(called, isFalse);
+      expect(find.text('まだ学習履歴がありません。'), findsOneWidget);
+    });
+
+    testWidgets('保存に失敗したら、失敗の文言を表示する', (tester) async {
+      await tester.pumpWidget(_app(
+        _service(),
+        now: () => fixedNow,
+        saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
+            throw StateError('fail'),
+      ));
+      await tester.pumpAndSettle();
+      await record(tester);
+      await tapDownload(tester);
+
+      expect(find.text('書き出せませんでした'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('共有シートを閉じたとき（false）は、完了の文言を出さない', (tester) async {
+      await tester.pumpWidget(_app(
+        _service(),
+        now: () => fixedNow,
+        saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
+            false,
+      ));
+      await tester.pumpAndSettle();
+      await record(tester);
+      await tapDownload(tester);
+
+      expect(find.text('書き出しました'), findsNothing);
+      expect(find.text('書き出せませんでした'), findsNothing);
+    });
   });
 }
