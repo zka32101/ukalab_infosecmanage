@@ -4,6 +4,7 @@ import 'package:ukalab_core/ui.dart';
 import 'package:ukalab_core/ukalab_core.dart';
 
 import '../data/exam_repository.dart';
+import 'overflow_safe.dart';
 import '../screens/mistake_note_screen.dart';
 import '../screens/reading_screen.dart';
 import '../screens/terms_screen.dart';
