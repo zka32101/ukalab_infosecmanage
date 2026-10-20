@@ -509,6 +509,7 @@ const _externalEllipsis = [
   '[terms-search @',
   '[terms-card @', // 検索結果の副題（用語カードのシートの背後の一覧）
   '[home>用語集 @',
+  '[learn>用語集 @',
   // メダルの共有カード（core の OshiMedalShareCard。固定比率のカードで、メダル名が2行までで切れる）。
   '[medal-dialog @',
   // 演習の自分用メモ欄（core の QuestionMemoField）。
