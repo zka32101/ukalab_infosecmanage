@@ -397,6 +397,8 @@ void main() {
         find.text(label),
         200,
         scrollable: find.byType(Scrollable).first,
+        // 設定が長くなった（プレミアム紹介カード）ので、文字 300% × 幅 320dp でも届くよう回数を増やす。
+        maxScrolls: 300,
       );
       await h.tapVisible(find.text(label).first);
       await h.settle();
