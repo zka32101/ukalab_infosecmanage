@@ -28,6 +28,7 @@ import 'package:ukalab_infosecmanage/screens/record_screen.dart';
 import 'package:ukalab_infosecmanage/screens/route_planner_screen.dart';
 import 'package:ukalab_infosecmanage/screens/settings_screen.dart';
 import 'package:ukalab_infosecmanage/screens/terms_screen.dart';
+import 'package:ukalab_infosecmanage/widgets/learn_tools_section.dart';
 import 'package:ukalab_infosecmanage/widgets/oshi_medal_button.dart';
 
 import 'test_support.dart';
@@ -105,6 +106,35 @@ void main() {
         .setDate(DateTime.now().add(const Duration(days: 3)));
     await h.settle();
     await h.check('home-premium');
+  });
+
+  _matrix('学ぶタブ（移した入口に到達できる）', () => data, premium: true, (h, tester) async {
+    await h.seed(hard, wrong: true);
+    await h.pump(
+      LearnScreen(
+        questions: hard,
+        terms: data.terms,
+        sessionSize: hard.length,
+        footer: LearnToolsSection(
+          exam: data.exam,
+          questions: data.activeQuestions,
+          terms: data.terms,
+          chapterReadings: data.chapterReadings,
+        ),
+      ),
+    );
+    for (final t in ['間違いノート', 'ブックマーク', '自分用メモ', '用語集', '分野ごとの解説読み物']) {
+      expect(find.text(t, skipOffstage: false), findsOneWidget, reason: '学ぶタブの入口 $t');
+    }
+    for (final t in ['間違いノート', '用語集', '分野ごとの解説読み物']) {
+      final f = find.text(t).first;
+      await h.tapVisible(f);
+      await h.settle(real: true);
+      expect(find.byType(AppBar), findsOneWidget, reason: t);
+      await h.check('learn>$t');
+      tester.state<NavigatorState>(find.byType(Navigator).first).pop();
+      await h.settle();
+    }
   });
 
   _matrix('演習（出題・回答後の解説）', () => data, (h, tester) async {
@@ -336,7 +366,14 @@ void main() {
         chapterReadings: data.chapterReadings,
       ),
     );
-    for (final t in ['間違いノート', '用語集', '分野ごとの解説読み物', '最短ルートプランナー', '100問ペース走']) {
+    // 見出しで「今日 / 記録 / 試験」に整理されていること。用語集・読み物・メモ・間違いノートは「学ぶ」へ移動済み。
+    for (final t in ['今日やること', '記録', '試験に向けて']) {
+      expect(find.text(t), findsWidgets, reason: 'ホームの見出し $t');
+    }
+    for (final t in ['用語集', '分野ごとの解説読み物', '自分用メモ', 'ブックマーク']) {
+      expect(find.text(t), findsNothing, reason: 'ホームから移動済み $t');
+    }
+    for (final t in ['最短ルートプランナー', '100問ペース走']) {
       final f = find.text(t).first;
       await h.tapVisible(f);
       await h.settle(real: true);
@@ -472,6 +509,7 @@ const _externalEllipsis = [
   '[terms-search @',
   '[terms-card @', // 検索結果の副題（用語カードのシートの背後の一覧）
   '[home>用語集 @',
+  '[learn>用語集 @',
   // メダルの共有カード（core の OshiMedalShareCard。固定比率のカードで、メダル名が2行までで切れる）。
   '[medal-dialog @',
   // 演習の自分用メモ欄（core の QuestionMemoField）。

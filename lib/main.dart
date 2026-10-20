@@ -26,6 +26,7 @@ import 'screens/settings_screen.dart';
 import 'services/local_reminder_notifier.dart';
 import 'services/no_ads_backend.dart';
 import 'services/startup_safety.dart';
+import 'widgets/learn_tools_section.dart';
 
 /// Google公式のテスト広告ユニットID。本番公開前に実際のIDへ差し替える（決定35）。
 /// 本番の広告ユニットID（Android）。ビルド時に
@@ -243,7 +244,16 @@ class _RootPage extends ConsumerWidget {
               terms: data.terms,
               chapterReadings: data.chapterReadings,
             ),
-            LearnScreen(questions: questions, terms: data.terms),
+            LearnScreen(
+              questions: questions,
+              terms: data.terms,
+              footer: LearnToolsSection(
+                exam: data.exam,
+                questions: questions,
+                terms: data.terms,
+                chapterReadings: data.chapterReadings,
+              ),
+            ),
             MockExamScreen(exam: data.exam, questions: questions),
             RecordScreen(exam: data.exam, questions: questions),
             SettingsScreen(questions: questions, exam: data.exam, terms: data.terms),

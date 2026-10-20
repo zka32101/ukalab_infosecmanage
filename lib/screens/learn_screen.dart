@@ -22,6 +22,7 @@ class LearnScreen extends ConsumerStatefulWidget {
     required this.terms,
     this.sessionSize = 10,
     this.newTypesEnabled = kNewQuestionTypesEnabled,
+    this.footer,
   });
 
   final List<Question> questions;
@@ -31,6 +32,9 @@ class LearnScreen extends ConsumerStatefulWidget {
   /// ○×・空欄補充・説明から用語を出題に含めるか（既定は [kNewQuestionTypesEnabled]）。
   /// false のときは [questions] に含まれていても出さない（二重の防御）。
   final bool newTypesEnabled;
+
+  /// 演習の下に出す入口群（間違いノート・用語集・読み物など）。null なら出さない。
+  final Widget? footer;
 
   @override
   ConsumerState<LearnScreen> createState() => _LearnScreenState();
@@ -218,7 +222,18 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   @override
   Widget build(BuildContext context) {
     if (_pool.isEmpty) {
-      return const ScrollableCenter(child: EmptyState(message: '問題データがまだありません。'));
+      return ScrollableCenter(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const EmptyState(message: '問題データがまだありません。'),
+            if (widget.footer != null) ...[
+              const SizedBox(height: 16),
+              Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: widget.footer!),
+            ],
+          ],
+        ),
+      );
     }
     // 回答済みの間は、回答した問題で描く（_answeredQuestion の説明を参照）。
     final q = _answeredQuestion ?? _session.current;
@@ -237,6 +252,10 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
               ),
               const SizedBox(height: 16),
               adGate.banner(BannerPlacement.result),
+              if (widget.footer != null) ...[
+                const SizedBox(height: 16),
+                widget.footer!,
+              ],
             ],
           ),
         ),
@@ -307,6 +326,10 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
             const SizedBox(height: 16),
             FilledButton(onPressed: _next, child: const Text('次へ')),
           ],
+          if (widget.footer != null) ...[
+            const SizedBox(height: 24),
+            widget.footer!,
+          ],
         ],
       ),
     );
@@ -363,6 +386,10 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
           if (_answered) ...[
             const SizedBox(height: 12),
             QuestionMemoField(key: ValueKey(q.qid), qid: q.qid),
+          ],
+          if (widget.footer != null) ...[
+            const SizedBox(height: 24),
+            widget.footer!,
           ],
         ],
       ),
