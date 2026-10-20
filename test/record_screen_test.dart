@@ -52,4 +52,36 @@ void main() {
     expect(find.text('100%'), findsOneWidget); // s2: 1/1
     expect(find.textContaining('学習の記録はこれから'), findsNothing);
   });
+
+  testWidgets('全体に対する解答済み・正解済みの割合を出す', (tester) async {
+    final container = await _pump(tester, questions: [_q('a', 's1'), _q('b', 's1'), _q('c', 's2'), _q('d', 's2')]);
+    final n = container.read(progressProvider.notifier);
+    await n.recordAnswer('a', correct: true);
+    await n.recordAnswer('b', correct: false);
+    await n.recordAnswer('c', correct: true);
+    await tester.pump();
+
+    expect(find.text('解答済み 3/4問(75%)'), findsOneWidget);
+    expect(find.text('正解済み 2/4問(50%)'), findsOneWidget);
+  });
+
+  testWidgets('問題プールにない解答済みqidは母数・分子に含めない', (tester) async {
+    final container = await _pump(tester, questions: [_q('a', 's1'), _q('b', 's1')]);
+    final n = container.read(progressProvider.notifier);
+    await n.recordAnswer('a', correct: true);
+    await n.recordAnswer('gone', correct: true); // フラグで除外された問題など
+    await tester.pump();
+
+    expect(find.text('解答済み 1/2問(50%)'), findsOneWidget);
+    expect(find.text('正解済み 1/2問(50%)'), findsOneWidget);
+  });
+
+  testWidgets('問題プールが空でもゼロ割にならず、割合行を出さない', (tester) async {
+    final container = await _pump(tester, questions: const []);
+    await container.read(progressProvider.notifier).recordAnswer('a', correct: true);
+    await tester.pump();
+
+    expect(find.textContaining('解答済み'), findsNothing);
+    expect(find.text('1問'), findsOneWidget);
+  });
 }
