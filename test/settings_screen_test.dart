@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ukalab_core/ui.dart' show FileSaver;
-import 'package:ukalab_core/ukalab_core.dart' show Question, QuestionSource;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ukalab_core/ukalab_core.dart' show ProgressRecord;
 import 'package:ukalab_infosecmanage/data/history_store.dart';
 import 'package:ukalab_infosecmanage/screens/settings_screen.dart';
 
@@ -176,27 +177,25 @@ void main() {
   group('学習履歴のCSV（ファイル保存）', () {
     final fixedNow = DateTime(2026, 10, 20, 9);
 
-    Question q() => const Question(
-          qid: 'q1',
-          examId: 'g',
-          subjectId: 's1',
-          topicId: 'ch1',
-          prompt: 'p',
-          explanation: 'e',
-          source: QuestionSource.original,
-          sourceRef: 'r',
-          contentVer: '1',
-          choices: ['a', 'b'],
-          answerIndex: 0,
-        );
-
-    Future<void> record(WidgetTester tester) async {
-      final c = ProviderScope.containerOf(tester.element(find.byType(SettingsScreen)));
-      await tester.runAsync(() => c.read(historyProvider.notifier).record(
-            q(),
+    /// 履歴を端末内保存に仕込む（pump の前に呼ぶ）。履歴の読み込みは実際の非同期なので settle で待つ。
+    void seedHistory() {
+      SharedPreferences.setMockInitialValues({
+        'ukalab_infosecmanage_history_v1': encodeHistory([
+          ProgressRecord(
+            qid: 'q1',
+            subjectId: 's1',
             correct: true,
             at: DateTime(2026, 10, 9, 10),
-          ));
+            topicId: 'ch1',
+          ),
+        ]),
+      });
+    }
+
+    Future<void> settle(WidgetTester tester) async {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+      await tester.pump();
+      await tester.pump();
     }
 
     Future<void> tapDownload(WidgetTester tester) async {
@@ -208,6 +207,7 @@ void main() {
 
     testWidgets('履歴があれば、BOM付きUTF-8のCSVを所定のファイル名で保存に渡す', (tester) async {
       final calls = <({List<int> bytes, String fileName, String mimeType})>[];
+      seedHistory();
       await tester.pumpWidget(_app(
         _service(),
         now: () => fixedNow,
@@ -216,8 +216,7 @@ void main() {
           return true;
         },
       ));
-      await tester.pumpAndSettle();
-      await record(tester);
+      await settle(tester);
       await tapDownload(tester);
 
       expect(calls, hasLength(1));
@@ -234,6 +233,7 @@ void main() {
     });
 
     testWidgets('履歴が空なら保存を呼ばず、その旨を表示する', (tester) async {
+      SharedPreferences.setMockInitialValues({});
       var called = false;
       await tester.pumpWidget(_app(
         _service(),
@@ -251,14 +251,14 @@ void main() {
     });
 
     testWidgets('保存に失敗したら、失敗の文言を表示する', (tester) async {
+      seedHistory();
       await tester.pumpWidget(_app(
         _service(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
             throw StateError('fail'),
       ));
-      await tester.pumpAndSettle();
-      await record(tester);
+      await settle(tester);
       await tapDownload(tester);
 
       expect(find.text('書き出せませんでした'), findsOneWidget);
@@ -266,14 +266,14 @@ void main() {
     });
 
     testWidgets('共有シートを閉じたとき（false）は、完了の文言を出さない', (tester) async {
+      seedHistory();
       await tester.pumpWidget(_app(
         _service(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
             false,
       ));
-      await tester.pumpAndSettle();
-      await record(tester);
+      await settle(tester);
       await tapDownload(tester);
 
       expect(find.text('書き出しました'), findsNothing);
