@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### 変更
+- 設定の「学習履歴をダウンロード（CSV）」を、プレミアム限定にした（設定の履歴書き出し `exportTile` と同じ扱い）。無料ではタイルに鍵アイコンと「プレミアムで使えます」を表示し、タップしても保存せず、購入欄への案内を出す。プレミアムでは従来どおり保存できる。価格・無料枠は変更なし
 - ukalab_core を v0.81.0 → v0.82.1、app_common_kit を v3.12.0 → v4.0.0 に更新。キット v4.0.0 で学習向け部品（QuestionCard・ExplanationPanel・ResultSummary・MockExamTrendChart など）がコアへ移ったため、使うファイルに `package:ukalab_core/learning.dart` を追加（挙動は同じ）
 - ホームの推しカードに `onLockedTap` を配線。ロック中の資格専用キャラ（シェル）のプレビューの「プレミアムを見る」から、推しの選択画面を閉じて設定（購入欄）を開く
 - ukalab_core を v0.79.1 → v0.81.0 に更新し、資格専用キャラの受け口を配線（appId は `info_security`、プレミアム購入者のみ選択可。画像は別PRで取り込み予定のため、現時点の表示は標準キャラ）
