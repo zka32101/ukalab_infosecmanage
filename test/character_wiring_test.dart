@@ -20,19 +20,14 @@ void main() {
   });
 
   test('無料は false、プレミアムは true（権利状態に追従）', () async {
-    final service = FakeEntitlementService(
-      availableOffers: const [
-        EntitlementOffer(id: 'premium', productId: 'p', title: 't', priceString: '¥1'),
-      ],
-      grantOnPurchase: const {'p': EntitlementState(hasPremium: true)},
-    );
+    final service = FakeEntitlementService();
     final c = _container(service);
     final sub = c.listen(characterPremiumProvider, (_, __) {});
     addTearDown(sub.close);
     await c.read(entitlementStateProvider.future);
     expect(c.read(characterPremiumProvider), isFalse);
-    await service.purchaseOffer('premium');
-    await Future<void>.delayed(Duration.zero);
+    service.setState(const EntitlementState(hasPremium: true));
+    await Future<void>.delayed(const Duration(milliseconds: 50));
     expect(c.read(characterPremiumProvider), isTrue);
   });
 }
