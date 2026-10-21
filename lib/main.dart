@@ -17,6 +17,7 @@ import 'package:ukalab_core/reminder_notification.dart'
     show ReminderNotificationWatcher, reminderNotifierProvider;
 import 'package:ukalab_core/exam_date.dart';
 import 'package:ukalab_core/mock_exam_history.dart';
+import 'data/character_wiring.dart';
 import 'data/exam_repository.dart';
 import 'screens/home_screen.dart';
 import 'screens/learn_screen.dart';
@@ -163,6 +164,7 @@ void main() async {
       ...reminder,
       ...achievementUnlock,
       ...mockExamHistory,
+      ...characterOverrides(),
       dailyGoalAchievementsOverride,
       // 端末の通知は、スマホ（Android・iOS）だけ。Web は何もしない既定のまま。
       if (!kIsWeb) reminderNotifierProvider.overrideWithValue(LocalReminderNotifier()),
