@@ -26,6 +26,11 @@ const _premiumOffer = EntitlementOffer(
   priceString: '¥1,500',
 );
 
+FakeEntitlementService _premiumService() => FakeEntitlementService(
+      availableOffers: const [_noAdsOffer, _premiumOffer],
+      initial: const EntitlementState(hasPremium: true),
+    );
+
 FakeEntitlementService _service() => FakeEntitlementService(
       availableOffers: const [_noAdsOffer, _premiumOffer],
       grantOnPurchase: const {
@@ -211,7 +216,7 @@ void main() {
       final calls = <({List<int> bytes, String fileName, String mimeType})>[];
       seedHistory();
       await _pump(tester, _app(
-        _service(),
+        _premiumService(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async {
           calls.add((bytes: bytes, fileName: fileName, mimeType: mimeType));
@@ -238,7 +243,7 @@ void main() {
       SharedPreferences.setMockInitialValues({});
       var called = false;
       await _pump(tester, _app(
-        _service(),
+        _premiumService(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async {
           called = true;
@@ -255,7 +260,7 @@ void main() {
     testWidgets('保存に失敗したら、失敗の文言を表示する', (tester) async {
       seedHistory();
       await _pump(tester, _app(
-        _service(),
+        _premiumService(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
             throw StateError('fail'),
@@ -270,7 +275,7 @@ void main() {
     testWidgets('共有シートを閉じたとき（false）は、完了の文言を出さない', (tester) async {
       seedHistory();
       await _pump(tester, _app(
-        _service(),
+        _premiumService(),
         now: () => fixedNow,
         saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async =>
             false,
@@ -280,6 +285,25 @@ void main() {
 
       expect(find.text('書き出しました'), findsNothing);
       expect(find.text('書き出せませんでした'), findsNothing);
+    });
+
+    testWidgets('無料では、タップしても保存を呼ばず、プレミアムの案内を出す', (tester) async {
+      var called = false;
+      seedHistory();
+      await _pump(tester, _app(
+        _service(),
+        now: () => fixedNow,
+        saver: ({required bytes, required fileName, required mimeType, sharePositionOrigin}) async {
+          called = true;
+          return true;
+        },
+      ));
+      await settle(tester);
+      await tapDownload(tester);
+
+      expect(called, isFalse);
+      expect(find.textContaining('プレミアムで使えます'), findsWidgets);
+      expect(find.text('書き出しました'), findsNothing);
     });
   });
 }

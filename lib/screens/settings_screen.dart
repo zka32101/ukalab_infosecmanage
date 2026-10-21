@@ -16,6 +16,7 @@ import 'package:ukalab_core/cross_promo.dart' show UkalabCrossPromoSection;
 import 'package:ukalab_core/daily_goal.dart' show DailyGoalSetting;
 import 'package:ukalab_core/reminder.dart' show ReminderSettingsSection;
 import 'package:ukalab_core/exam_date.dart';
+import '../data/core_features.dart' show isPremiumFor;
 import '../data/data_parts.dart';
 import '../data/history_store.dart';
 import 'exam_prep_entry.dart';
@@ -63,6 +64,7 @@ class SettingsScreen extends ConsumerWidget {
         ref.watch(entitlementStateProvider).valueOrNull ?? EntitlementState.free;
     final service = ref.watch(entitlementServiceProvider);
     final handsFree = ref.watch(handsFreeProvider);
+    final historyExportUnlocked = isPremiumFor(ref, PremiumFeature.historyExport);
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -104,8 +106,13 @@ class SettingsScreen extends ConsumerWidget {
         ListTile(
           key: const ValueKey('downloadHistoryCsv'),
           title: const Text('学習履歴をダウンロード（CSV）'),
-          subtitle: const Text('日ごと・分野ごとの解答数と正答率。個人情報は含みません。'),
-          onTap: () => _downloadHistory(context, ref),
+          leading: historyExportUnlocked ? null : const Icon(Icons.lock_outline),
+          subtitle: Text(historyExportUnlocked
+              ? '日ごと・分野ごとの解答数と正答率。個人情報は含みません。'
+              : '${ExamPrepStrings.of(context).premiumNote}（下の「購入」から）'),
+          onTap: () => historyExportUnlocked
+              ? _downloadHistory(context, ref)
+              : _showHistoryLocked(context),
         ),
         const Divider(height: 24),
         const Padding(
@@ -182,6 +189,14 @@ class SettingsScreen extends ConsumerWidget {
         // 掲載リストが空なら何も表示しない。うかラボは大人向けなので保護者ゲートは不要。
         const UkalabCrossPromoSection(currentAppId: 'com.yourwish.ukalab.infosecmanage'),
       ],
+    );
+  }
+
+  /// 無料では保存せず、プレミアムの案内だけを出す（購入欄はこの画面の下にある）。
+  void _showHistoryLocked(BuildContext context) {
+    final note = ExamPrepStrings.of(context).premiumNote;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$note。このページ下の「購入」からプレミアムを選べます。')),
     );
   }
 
