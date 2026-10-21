@@ -5,6 +5,7 @@ import 'package:ukalab_core/ukalab_core.dart';
 
 import '../data/exam_repository.dart';
 import 'overflow_safe.dart';
+import '../screens/incident_story_screen.dart';
 import '../screens/mistake_note_screen.dart';
 import '../screens/reading_screen.dart';
 import '../screens/terms_screen.dart';
@@ -62,6 +63,20 @@ class LearnToolsSection extends ConsumerWidget {
                   appBar: wrappingAppBar(context, '用語集'),
                   body: TermsScreen(exam: exam, terms: terms),
                 ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.local_fire_department_outlined),
+            title: const Text('インシデント対応30分'),
+            subtitle: const Text('架空の会社の事故で、初動・報告・封じ込めを判断して学ぶ体験型教材。最初の2本は無料です。'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => IncidentStoryListScreen(terms: terms),
               ),
             ),
           ),
