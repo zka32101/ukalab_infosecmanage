@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ukalab_core/achievements.dart'
     show AchievementsView, dailyGoalAchievementCategoryLabels;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:ukalab_core/learning.dart';
 import 'package:ukalab_core/exam_date.dart';
 import 'package:ukalab_core/mock_exam_history.dart';
 import 'package:ukalab_core/ui.dart';

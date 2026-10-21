@@ -1,13 +1,23 @@
+import 'package:app_common_kit/app_common_kit.dart'
+    show FakeEntitlementService, InMemoryHandsFreeStore, entitlementServiceProvider, handsFreeStoreProvider;
 import 'package:ukalab_core/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ukalab_infosecmanage/screens/settings_screen.dart';
 import 'package:ukalab_infosecmanage/widgets/oshi_card.dart';
+
+import 'test_support.dart';
 
 Widget _app(Widget child) => ProviderScope(
       overrides: [
         coinServiceProvider.overrideWithValue(CoinService(store: InMemoryCoinStore())),
         outfitServiceProvider.overrideWithValue(OutfitService(store: InMemoryOutfitStore())),
+        characterAppIdProvider.overrideWithValue('info_security'),
+        characterPremiumProvider.overrideWithValue(false),
+        entitlementServiceProvider.overrideWithValue(FakeEntitlementService()),
+        handsFreeStoreProvider.overrideWithValue(InMemoryHandsFreeStore()),
+        ...studyNotesTestOverrides(),
       ],
       child: MaterialApp(
         theme: UkalabTheme.light(field: UkalabField.it, cert: UkalabCert.infoSecurity),
@@ -96,5 +106,39 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('の結果を教えてください'), findsOneWidget);
+  });
+
+  testWidgets('UkalabOshiCard に onLockedTap が渡っている（資格専用キャラの購入導線）', (tester) async {
+    await tester.pumpWidget(_app(const OshiCard(totalQuestions: 600)));
+    await tester.pumpAndSettle();
+
+    final card = tester.widget<UkalabOshiCard>(find.byType(UkalabOshiCard));
+    expect(card.onLockedTap, isNotNull);
+    expect(card.appId, 'info_security');
+  });
+
+  testWidgets('ロック中のシェルのプレビューから、選択画面を閉じて設定が開く', (tester) async {
+    tester.view.physicalSize = const Size(800, 6000);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(_app(const OshiCard(totalQuestions: 600)));
+    await tester.pumpAndSettle();
+
+    // メニュー →「推しを選ぶ」
+    await tester.tap(find.byWidgetPredicate((w) => w is PopupMenuButton));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(UkalabStrings.ja.oshiChoose));
+    await tester.pumpAndSettle();
+    expect(find.byType(CharacterSelectScreen), findsOneWidget);
+
+    // ロック中の資格専用キャラ（シェル）→ プレビュー →「プレミアムを見る」
+    await tester.tap(find.text(UkalabStrings.ja.characterNames['sheru']!));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(UkalabStrings.ja.characterPurchaseAction));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(CharacterSelectScreen), findsNothing);
+    expect(find.byType(SettingsScreen), findsOneWidget);
   });
 }

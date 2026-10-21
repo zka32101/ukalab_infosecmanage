@@ -2,6 +2,7 @@ import 'package:app_common_kit/app_common_kit.dart';
 import 'package:app_common_kit/hands_free_tts.dart';
 import 'package:ukalab_core/answer_feedback.dart' show AnswerFeedbackPanel;
 import 'package:ukalab_core/daily_goal.dart' show recordDailyAnswer;
+import 'package:ukalab_core/learning.dart';
 import 'package:ukalab_core/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

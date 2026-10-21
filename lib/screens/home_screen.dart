@@ -68,6 +68,9 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           OshiCard(
             totalQuestions: questions.length,
+            exam: exam,
+            questions: questions,
+            terms: terms,
             examDate: userDate ?? (exam.examDates.isEmpty ? null : exam.examDates.first),
           ),
           const SizedBox(height: 8),
