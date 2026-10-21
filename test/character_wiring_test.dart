@@ -26,6 +26,7 @@ void main() {
     addTearDown(sub.close);
     await c.read(entitlementStateProvider.future);
     expect(c.read(characterPremiumProvider), isFalse);
+    await Future<void>.delayed(const Duration(milliseconds: 50)); // stream 購読の確立を待つ
     service.setState(const EntitlementState(hasPremium: true));
     await Future<void>.delayed(const Duration(milliseconds: 50));
     expect(c.read(characterPremiumProvider), isTrue);
