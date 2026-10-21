@@ -8,6 +8,13 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Firebase 設定（cross_promo 用）。google-services.json は秘密扱いでリポジトリに置かず、
+// CI が Secret GOOGLE_SERVICES_JSON_BASE64 から生成する。ファイルが無い通常の
+// テスト/ローカルビルドではプラグインを適用しない。
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}
+
 // リリース署名鍵。ローカルは android/key.properties（gitignore対象）、
 // CIは環境変数（GitHub Actions Secrets）から読む。どちらも無ければdebug鍵のまま。
 val keystorePropertiesFile = rootProject.file("key.properties")

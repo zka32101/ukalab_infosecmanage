@@ -3,6 +3,10 @@ android/key.properties
 *.jks
 *.keystore
 
+# Firebase 設定ファイル（CI が Secrets から生成。コミットしない）
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
 # Miscellaneous
 *.class
 *.log
