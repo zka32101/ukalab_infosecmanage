@@ -144,6 +144,7 @@ void main() {
         'historyExport',
         'mockExamHistory',
         'readingReadAloud',
+        'qualificationCharacter',
       ]) {
         expect(find.byKey(ValueKey('premiumBenefit_$name')), findsOneWidget, reason: name);
       }
