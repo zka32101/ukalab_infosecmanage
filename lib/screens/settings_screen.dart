@@ -31,6 +31,7 @@ const _premiumBenefitFeatures = <PremiumFeature>[
   PremiumFeature.historyExport,
   PremiumFeature.mockExamHistory,
   PremiumFeature.readingReadAloud,
+  PremiumFeature.qualificationCharacter,
 ];
 
 /// 「設定」タブ。課金（決定35）の購入・復元を提供する。広告はnoads/premiumの
