@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:app_common_kit/app_common_kit.dart' hide SettingsScreen;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ukalab_core/ui.dart' show UkalabStartupSplash;
