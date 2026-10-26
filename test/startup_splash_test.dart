@@ -1,17 +1,18 @@
 import 'dart:io';
 
-import 'package:app_common_kit/app_common_kit.dart' hide SettingsScreen;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ukalab_core/ui.dart' show UkalabStartupSplash;
 import 'package:ukalab_infosecmanage/main.dart';
 
 void main() {
   testWidgets('起動画面にアイコンと背景色が渡る', (tester) async {
     await tester.pumpWidget(MaterialApp(home: buildLaunchSplash()));
-    final splash = tester.widget<StartupSplash>(find.byType(StartupSplash));
-    expect(splash.appIconAsset, kLaunchIconAsset);
+    final splash = tester.widget<UkalabStartupSplash>(find.byType(UkalabStartupSplash));
+    expect(splash.iconAsset, kLaunchIconAsset);
     expect(splash.backgroundColor, kLaunchBackground);
-    expect(splash.appIconSize, kLaunchIconSize);
+    expect(splash.iconSize, 160);
+    expect(splash.showProgress, isTrue);
     expect(find.byType(Image), findsWidgets);
   });
 

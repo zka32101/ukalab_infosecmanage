@@ -214,12 +214,12 @@ class UkalabInfoSecurityApp extends ConsumerWidget {
 /// 背景色は android の `launch_background_color` と storyboard の背景色に一致させること。
 const Color kLaunchBackground = Color(0xFF2A6FC0);
 const String kLaunchIconAsset = 'assets/icon/app_icon_foreground.png';
-const double kLaunchIconSize = 108;
+const double kLaunchIconSize = 160;
 
-StartupSplash buildLaunchSplash() => const StartupSplash(
-      appIconAsset: kLaunchIconAsset,
+UkalabStartupSplash buildLaunchSplash() => const UkalabStartupSplash(
       backgroundColor: kLaunchBackground,
-      appIconSize: kLaunchIconSize,
+      iconAsset: kLaunchIconAsset,
+      iconSize: kLaunchIconSize,
     );
 
 class _RootPage extends ConsumerWidget {
