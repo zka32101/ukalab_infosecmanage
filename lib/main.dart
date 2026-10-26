@@ -17,6 +17,7 @@ import 'package:ukalab_core/reminder_notification.dart'
     show ReminderNotificationWatcher, reminderNotifierProvider;
 import 'package:ukalab_core/exam_date.dart';
 import 'package:ukalab_core/mock_exam_history.dart';
+import 'data/character_wiring.dart';
 import 'data/exam_repository.dart';
 import 'screens/home_screen.dart';
 import 'screens/learn_screen.dart';
@@ -25,8 +26,16 @@ import 'screens/record_screen.dart';
 import 'screens/settings_screen.dart';
 import 'services/local_reminder_notifier.dart';
 import 'services/no_ads_backend.dart';
+import 'services/startup_safety.dart';
+import 'widgets/learn_tools_section.dart';
 
 /// Google公式のテスト広告ユニットID。本番公開前に実際のIDへ差し替える（決定35）。
+/// 本番の広告ユニットID（Android）。ビルド時に
+/// `--dart-define=AD_BANNER_ID=ca-app-pub-.../...` などで渡す。リポジトリには置かない。
+const _adBannerId = String.fromEnvironment('AD_BANNER_ID');
+const _adInterstitialId = String.fromEnvironment('AD_INTERSTITIAL_ID');
+const _adRewardedId = String.fromEnvironment('AD_REWARDED_ID');
+
 AdUnitIds _adUnitIds() => kIsWeb
     // Web には広告SDKが無く、広告は出さない（NoAdsBackend）。リリースビルドでテストIDを
     // 使うと AdGate が例外にするため、Web では空のIDにする。
@@ -37,18 +46,30 @@ AdUnitIds _adUnitIds() => kIsWeb
         interstitial: 'ca-app-pub-3940256099942544/4411468910',
         rewarded: 'ca-app-pub-3940256099942544/1712485313',
       )
-    // Android: 本番の広告ユニットは未発行のため、全ビルドでテスト広告。公開前に実IDへ差し替える。
+    // Android: リリースビルドだけ本番の広告ユニット（ビルド時に --dart-define で渡す）。
+    // それ以外（デバッグ・profile）はテスト広告。開発中に本物の広告を表示・クリックして
+    // 不正クリック扱いになるのを避ける。リリースで未指定なら空のIDになり、広告なしで起動する。
+    : kReleaseMode
+    ? const AdUnitIds(banner: _adBannerId, interstitial: _adInterstitialId, rewarded: _adRewardedId)
     : const AdUnitIds(
         banner: 'ca-app-pub-3940256099942544/6300978111',
         interstitial: 'ca-app-pub-3940256099942544/1033173712',
         rewarded: 'ca-app-pub-3940256099942544/5224354917',
       );
 
-/// RevenueCat の公開SDKキー（Google Play 用）。ビルド時に
-/// `--dart-define=RC_GOOGLE_KEY=goog_...` で渡す。コミットしない。
-/// 未指定（空）の間は、これまでどおり仮の購入サービス（FakeEntitlementService）で動く。
+/// RevenueCat の公開SDKキー。ビルド時に `--dart-define` で渡す。コミットしない。
+/// Android は `RC_GOOGLE_KEY=goog_...`、iOS は `RC_APPLE_KEY=appl_...`。
+/// 使うプラットフォームのキーが未指定（空）の間は、これまでどおり仮の購入サービス
+/// （FakeEntitlementService）で動く。
 const _rcGoogleKey = String.fromEnvironment('RC_GOOGLE_KEY');
-bool get _useRevenueCat => !kIsWeb && Platform.isAndroid && _rcGoogleKey.isNotEmpty;
+const _rcAppleKey = String.fromEnvironment('RC_APPLE_KEY');
+String? get _rcKey => revenueCatKeyFor(
+      isWeb: kIsWeb,
+      isAndroid: !kIsWeb && Platform.isAndroid,
+      isIOS: !kIsWeb && Platform.isIOS,
+      googleKey: _rcGoogleKey,
+      appleKey: _rcAppleKey,
+    );
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,11 +96,12 @@ void main() async {
   final outfitService = OutfitService(store: SharedPreferencesOutfitStore('info_security'));
   await outfitService.load();
 
-  // 課金。RC_GOOGLE_KEY が渡されたAndroidビルドだけ RevenueCat を使い、それ以外は
+  // 課金。RC_GOOGLE_KEY（Android）/ RC_APPLE_KEY（iOS）が渡されたビルドだけ RevenueCat を使い、それ以外は
   // 仮の購入サービス。価格（仮サービス側）は競合調査を踏まえた暫定値で、運営者確認が必要（決定14）。
   // RevenueCat 側は entitlement ID を 'noads' / 'premium'、商品を現行オファリングに登録する。
-  final EntitlementService entitlementService = _useRevenueCat
-      ? await RevenueCatEntitlementService.init(publicSdkKey: _rcGoogleKey)
+  final rcKey = _rcKey;
+  final EntitlementService entitlementService = rcKey != null
+      ? await RevenueCatEntitlementService.init(publicSdkKey: rcKey)
       : FakeEntitlementService(
     availableOffers: const [
       EntitlementOffer(
@@ -102,12 +124,17 @@ void main() async {
   );
 
   // 広告（AdMob、決定35）。noads/premiumの間は何も表示しない。
-  final adGate = await AdGate.init(
-    config: AdConfig(unitIds: _adUnitIds()),
-    // Web には広告SDK（google_mobile_ads）が無いため、広告を出さない実装にする。
-    backend: kIsWeb ? NoAdsBackend() : null,
-    adsHidden: () => entitlementService.state.adsHidden,
-    isRelease: kReleaseMode,
+  // リリースビルドでテスト広告IDが残っていると AdGate.init が例外を投げるため、
+  // 失敗しても起動を止めず、広告なしで続ける（理由はログに出す）。
+  final adGate = await initAdGateOrNoAds(
+    init: () => AdGate.init(
+      config: AdConfig(unitIds: _adUnitIds()),
+      // Web には広告SDK（google_mobile_ads）が無いため、広告を出さない実装にする。
+      // 本番の広告ユニットIDが未指定(空)のリリースでも、広告SDKを使わず、広告なしで起動する。
+      backend: kIsWeb || _adUnitIds().banner.isEmpty ? NoAdsBackend() : null,
+      adsHidden: () => entitlementService.state.adsHidden,
+      isRelease: kReleaseMode,
+    ),
   );
 
   // 全国平均点・偏差値の匿名集計（決定32）。Firebaseプロジェクトを取得後、
@@ -137,6 +164,7 @@ void main() async {
       ...reminder,
       ...achievementUnlock,
       ...mockExamHistory,
+      ...characterOverrides(),
       dailyGoalAchievementsOverride,
       // 端末の通知は、スマホ（Android・iOS）だけ。Web は何もしない既定のまま。
       if (!kIsWeb) reminderNotifierProvider.overrideWithValue(LocalReminderNotifier()),
@@ -186,12 +214,12 @@ class UkalabInfoSecurityApp extends ConsumerWidget {
 /// 背景色は android の `launch_background_color` と storyboard の背景色に一致させること。
 const Color kLaunchBackground = Color(0xFF2A6FC0);
 const String kLaunchIconAsset = 'assets/icon/app_icon_foreground.png';
-const double kLaunchIconSize = 108;
+const double kLaunchIconSize = 160;
 
-StartupSplash buildLaunchSplash() => const StartupSplash(
-      appIconAsset: kLaunchIconAsset,
+UkalabStartupSplash buildLaunchSplash() => const UkalabStartupSplash(
       backgroundColor: kLaunchBackground,
-      appIconSize: kLaunchIconSize,
+      iconAsset: kLaunchIconAsset,
+      iconSize: kLaunchIconSize,
     );
 
 class _RootPage extends ConsumerWidget {
@@ -218,7 +246,16 @@ class _RootPage extends ConsumerWidget {
               terms: data.terms,
               chapterReadings: data.chapterReadings,
             ),
-            LearnScreen(questions: questions, terms: data.terms),
+            LearnScreen(
+              questions: questions,
+              terms: data.terms,
+              footer: LearnToolsSection(
+                exam: data.exam,
+                questions: questions,
+                terms: data.terms,
+                chapterReadings: data.chapterReadings,
+              ),
+            ),
             MockExamScreen(exam: data.exam, questions: questions),
             RecordScreen(exam: data.exam, questions: questions),
             SettingsScreen(questions: questions, exam: data.exam, terms: data.terms),
