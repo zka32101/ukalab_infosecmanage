@@ -1,7 +1,7 @@
 name: ukalab_infosecmanage
 description: "うかラボ 情報セキュリティマネジメント - 情報セキュリティマネジメント試験対策アプリ。IPA（情報処理推進機構）とは無関係の非公式アプリ。"
 publish_to: 'none'
-version: 1.0.3+5
+version: 1.0.4+6
 
 environment:
   sdk: ^3.9.2
