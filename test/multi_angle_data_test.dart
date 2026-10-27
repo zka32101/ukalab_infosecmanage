@@ -23,7 +23,7 @@ void main() {
     expect(added.where((q) => q.type == QuestionType.trueFalse).length, 24);
     expect(added.where((q) => q.type == QuestionType.cloze).length, 24);
     expect(added.where((q) => q.type == QuestionType.reverseLookup).length, 24);
-    expect(data.questions.length, 1102 + 72);
+    expect(data.questions.length, 1122 + 72);
   });
 
   test('全問 ai-draft・original・conceptId が実在する用語を指し、観点が形式に対応する', () {
@@ -54,9 +54,9 @@ void main() {
     }
   });
 
-  test('フラグ OFF（既定）では新形式は出題プールに出ず、選択式は 1102 問のまま', () {
+  test('フラグ OFF（既定）では新形式は出題プールに出ず、選択式は 1122 問のまま', () {
     expect(kNewQuestionTypesEnabled, isFalse);
-    expect(data.activeQuestions.length, 1102);
+    expect(data.activeQuestions.length, 1122);
     expect(data.activeQuestions.any(isNewQuestionType), isFalse);
   });
 }
