@@ -26,11 +26,12 @@ void main() {
     expect(data.questions.length, 1142 + 72);
   });
 
-  test('全問 ai-draft・original・conceptId が実在する用語を指し、観点が形式に対応する', () {
+  test('全問 multi-angle・original・conceptId が実在する用語を指し、観点が形式に対応する', () {
     final termIds = data.terms.map((t) => t.termId).toSet();
     for (final q in added) {
       expect(q.source, QuestionSource.original, reason: q.qid);
-      expect(q.tags, contains('ai-draft'), reason: q.qid);
+      expect(q.tags, contains('multi-angle'), reason: q.qid);
+      expect(q.tags, isNot(contains('ai-draft')), reason: q.qid);
       expect(termIds, contains(q.conceptId), reason: q.qid);
       expect(q.angle, isNotNull, reason: q.qid);
       expect(isNewQuestionType(q), isTrue, reason: q.qid);
