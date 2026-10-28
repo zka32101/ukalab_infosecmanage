@@ -9,7 +9,8 @@ import 'package:ukalab_infosecmanage/screens/incident_story_screen.dart';
 late ExamData _data;
 late List<IncidentScenario> _scenarios;
 
-Future<void> _pumpList(WidgetTester tester, {required bool premium}) async {
+Future<void> _pumpList(WidgetTester tester,
+    {required bool premium, List<IncidentScenario>? scenarios}) async {
   tester.view.physicalSize = const Size(800, 3000);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
@@ -21,7 +22,7 @@ Future<void> _pumpList(WidgetTester tester, {required bool premium}) async {
     child: MaterialApp(
       home: IncidentStoryListScreen(
         terms: _data.terms,
-        scenariosFuture: Future.value(_scenarios),
+        scenariosFuture: Future.value(scenarios ?? _scenarios),
       ),
     ),
   ));
@@ -46,7 +47,7 @@ void main() {
       expect(_scenarios.skip(2).every((s) => !s.isFree), isTrue);
     });
 
-    test('品質ゲートに通る(AI下書きの印・自作の出典・禁止表現なし・用語の参照先)', () {
+    test('品質ゲートに通る(contentStatus・自作の出典・禁止表現なし・用語の参照先)', () {
       final issues = validateIncidentScenarios(
         _scenarios,
         exam: _data.exam,
@@ -54,38 +55,56 @@ void main() {
       );
       expect(issues, isEmpty);
       for (final s in _scenarios) {
-        expect(s.contentStatus, 'ai-draft');
+        expect(s.contentStatus, isEmpty);
+        expect(s.isAiDraft, isFalse);
         expect(s.story.sourceRef, contains('自作'));
+        expect(s.story.sourceRef, isNot(contains('専門家確認済み')));
         expect(s.story.chapters.length, 5);
       }
     });
 
-    test('禁止表現や AI 下書きの欠落を検出できる', () {
+    test('禁止表現・未知の contentStatus・用語の参照先の不備を検出できる', () {
       final bad = parseIncidentScenarios(
         '{"scenarioId":"x","examId":"info_security","title":"過去問で学ぶ","description":"d",'
         '"chapters":[{"chapterId":"a","situation":"s","choices":[{"choiceId":"1","text":"t","isRecommended":true,"feedback":"f"},{"choiceId":"2","text":"u","isRecommended":false,"feedback":"g"}]},'
         '{"chapterId":"b","situation":"s","choices":[{"choiceId":"1","text":"t","isRecommended":true,"feedback":"f"},{"choiceId":"2","text":"u","isRecommended":false,"feedback":"g"}]}],'
-        '"source":"original","sourceRef":"自作","contentVer":"1","termIds":["nope"]}',
+        '"source":"original","sourceRef":"自作","contentVer":"1","contentStatus":"unknown-status","termIds":["nope"]}',
       );
       final codes = validateIncidentScenarios(
         bad.scenarios,
         exam: _data.exam,
         termIds: _data.terms.map((t) => t.termId),
       ).map((i) => i.code).toSet();
-      expect(codes, containsAll(['no-ai-draft', 'forbidden-word', 'unknown-term']));
+      expect(codes, containsAll(['unknown-content-status', 'forbidden-word', 'unknown-term']));
     });
   });
 
   group('一覧画面', () {
-    testWidgets('無料: 無料シナリオは開け、AI下書きの表示が出る', (tester) async {
-      await _pumpList(tester, premium: false);
+    testWidgets('ai-draft の印があるシナリオだけ、AI下書きの表示が出る', (tester) async {
+      final draft = IncidentScenario(
+        story: _scenarios[0].story,
+        contentStatus: kIncidentContentStatusAiDraft,
+        termIds: _scenarios[0].termIds,
+      );
+      expect(draft.isAiDraft, isTrue);
+      await _pumpList(tester, premium: false, scenarios: [draft, ..._scenarios.skip(1)]);
       expect(find.text(kIncidentStoryDraftNotice), findsOneWidget);
+      await tester.tap(find.text(draft.story.title));
+      for (var i = 0; i < 10; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      expect(find.text(kIncidentStoryDraftNotice), findsOneWidget);
+    });
+
+    testWidgets('無料: 無料シナリオは開け、AI下書きの表示は出ない', (tester) async {
+      await _pumpList(tester, premium: false);
+      expect(find.text(kIncidentStoryDraftNotice), findsNothing);
       await tester.tap(find.text(_scenarios[0].story.title));
       for (var i = 0; i < 10; i++) {
         await tester.pump(const Duration(milliseconds: 50));
       }
       expect(find.byType(IncidentStoryPlayScreen), findsOneWidget);
-      expect(find.text(kIncidentStoryDraftNotice), findsOneWidget);
+      expect(find.text(kIncidentStoryDraftNotice), findsNothing);
       expect(find.text('第1章 / 全5章'), findsOneWidget);
     });
 

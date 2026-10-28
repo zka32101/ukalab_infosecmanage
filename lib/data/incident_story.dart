@@ -5,11 +5,15 @@ import 'package:ukalab_core/ukalab_core.dart';
 
 /// 「インシデント対応30分」(ストーリー型の体験。ukalab_boki の会社経営モードと同じ構造)のデータ。
 
-/// 画面に出す、AI下書きであることの表示。
+/// 画面に出す、AI下書きであることの表示(`contentStatus` が ai-draft のシナリオにだけ出す)。
 const String kIncidentStoryDraftNotice = '学習用の架空シナリオ(AI下書き・専門確認前)';
 
 /// データに付ける AI 下書きの印(`contentStatus`)。
 const String kIncidentContentStatusAiDraft = 'ai-draft';
+
+/// `contentStatus` に許す値。空(キーなし)は通常コンテンツ(問題・用語・読み物と同じ表記)。
+/// これ以外の値は品質ゲートで拒否する。
+const Set<String> kIncidentAllowedContentStatuses = {'', kIncidentContentStatusAiDraft};
 
 /// 無料で遊べるシナリオ(最初の2本)。残りはプレミアム限定。
 const Set<String> freeIncidentScenarioIds = {
@@ -32,7 +36,7 @@ class IncidentScenario {
 
   final StoryScenario story;
 
-  /// 'ai-draft' など。
+  /// 空(キーなし)= 通常コンテンツ、'ai-draft' = AI下書きの印つき。
   final String contentStatus;
 
   /// 既存の用語集の termId。画面の「関連用語」から用語カードを開く。
@@ -79,7 +83,7 @@ ParsedIncidentScenarios parseIncidentScenarios(String text) {
   return ParsedIncidentScenarios(scenarios, issues);
 }
 
-/// 配信前の品質ゲート。コアの検査に加えて、AI下書きの印・出典・禁止表現・関連用語の参照先を確かめる。
+/// 配信前の品質ゲート。コアの検査に加えて、contentStatus(未知の値は拒否)・出典・禁止表現・関連用語の参照先を確かめる。
 List<ContentIssue> validateIncidentScenarios(
   List<IncidentScenario> items, {
   required ExamConfig exam,
@@ -92,7 +96,9 @@ List<ContentIssue> validateIncidentScenarios(
   for (final item in items) {
     final s = item.story;
     void add(String code, String message) => issues.add(ContentIssue(s.scenarioId, code, message));
-    if (!item.isAiDraft) add('no-ai-draft', 'contentStatus が ai-draft ではありません');
+    if (!kIncidentAllowedContentStatuses.contains(item.contentStatus)) {
+      add('unknown-content-status', '未知の contentStatus です: ${item.contentStatus}');
+    }
     if (s.source != QuestionSource.original) add('not-original', 'source は original(自作)である必要があります');
     if (!s.sourceRef.contains('自作')) add('no-self-made', 'sourceRef に自作である旨がありません');
     if (item.termIds.isEmpty) add('no-terms', '関連用語(termIds)がありません');
