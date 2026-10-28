@@ -93,6 +93,8 @@ void main() {
       for (var i = 0; i < 10; i++) {
         await tester.pump(const Duration(milliseconds: 50));
       }
+      // 画面の切り替えアニメーション(Flutter の版によって長い)が終わるまで待つ。終わると下の一覧は画面外になる。
+      await tester.pumpAndSettle();
       expect(find.text(kIncidentStoryDraftNotice), findsOneWidget);
     });
 
