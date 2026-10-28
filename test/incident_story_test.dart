@@ -88,6 +88,7 @@ void main() {
       );
       expect(draft.isAiDraft, isTrue);
       await _pumpList(tester, premium: false, scenarios: [draft, ..._scenarios.skip(1)]);
+      expect(find.text(kIncidentStoryDraftNotice), findsOneWidget);
       await tester.tap(find.text(draft.story.title));
       for (var i = 0; i < 10; i++) {
         await tester.pump(const Duration(milliseconds: 50));

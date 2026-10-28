@@ -68,11 +68,13 @@ class _IncidentStoryListScreenState extends ConsumerState<IncidentStoryListScree
                 '架空の会社でセキュリティ事故が起きた想定で、最初の30分の判断を選びます。選んだあとに理由の解説が出ます。',
                 style: theme.textTheme.bodyMedium,
               ),
-              const SizedBox(height: 4),
-              Text(
-                kIncidentStoryDraftNotice,
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
-              ),
+              if (scenarios.any((s) => s.isAiDraft)) ...[
+                const SizedBox(height: 4),
+                Text(
+                  kIncidentStoryDraftNotice,
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
+                ),
+              ],
               const SizedBox(height: 12),
               for (final s in scenarios) ...[
                 Card(
