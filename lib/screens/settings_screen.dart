@@ -1,3 +1,4 @@
+import '../feedback/feedback_tile.dart';
 import 'package:app_common_kit/app_common_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -178,6 +179,7 @@ class SettingsScreen extends ConsumerWidget {
           description: '学習進捗・解答履歴・自分用メモは、試験日・ブックマークを除いて、'
               '書き出し・読み込み・リセットができます。',
         ),
+        const FeedbackTile(),
         CoreFeatureSettingsTiles(questions: questions),
         if (exam != null)
           ListTile(
