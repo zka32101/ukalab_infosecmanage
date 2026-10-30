@@ -17,6 +17,7 @@ import 'package:ukalab_core/daily_goal.dart' show DailyGoalSetting;
 import 'package:ukalab_core/reminder.dart' show ReminderSettingsSection;
 import 'package:ukalab_core/exam_date.dart';
 import '../data/core_features.dart' show isPremiumFor;
+import '../data/cross_promo_config.dart' show kInfoSecurityApplicationId;
 import '../data/data_parts.dart';
 import '../data/history_store.dart';
 import 'exam_prep_entry.dart';
@@ -188,7 +189,7 @@ class SettingsScreen extends ConsumerWidget {
                 exam: exam!, questions: questions, terms: terms),
           ),
         // 掲載リストが空なら何も表示しない。うかラボは大人向けなので保護者ゲートは不要。
-        const UkalabCrossPromoSection(currentAppId: 'com.yourwish.ukalab.infosecmanage'),
+        const UkalabCrossPromoSection(currentAppId: kInfoSecurityApplicationId),
       ],
     );
   }
