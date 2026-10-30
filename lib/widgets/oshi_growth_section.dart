@@ -50,12 +50,15 @@ class _OshiGrowthSectionState extends ConsumerState<OshiGrowthSection> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // タブが切り替わって最前面になったときにも判定する(TickerMode は非表示のタブで無効)。
+    // TickerMode.valuesOf は Flutter 3.35 に無い(リリースビルドは 3.35.5)ため、非推奨警告だけ抑える。
+    // ignore: deprecated_member_use
     TickerMode.of(context);
     WidgetsBinding.instance.addPostFrameCallback((_) => _celebrate());
   }
 
   bool get _foreground {
     if (!mounted) return false;
+    // ignore: deprecated_member_use
     return TickerMode.of(context) && (ModalRoute.of(context)?.isCurrent ?? true);
   }
 
