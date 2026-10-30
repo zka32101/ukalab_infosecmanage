@@ -1,0 +1,23 @@
+name: tmp-regen-lock
+on:
+  push:
+    branches: [chore/core-0.87.0]
+    paths: ['.github/workflows/tmp-regen-lock.yml']
+permissions:
+  contents: write
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+      - run: flutter pub get
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pubspec.lock
+          git commit -m "chore: regenerate pubspec.lock for ukalab_core v0.87.0 (CI)" || echo "no lock change"
+          git push

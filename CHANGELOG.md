@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- ukalab_core を v0.86.0 → v0.87.0 に更新（読み物の表現拡張・`reading.dart` 入口などの追加のみで、このアプリの画面・挙動は変更なし）
 - 相互紹介（ukalab_core の `UkalabCrossPromoSection`）の applicationId を定数に集約し、掲載0件でも設定画面が壊れないテストと `docs/cross_promo.md` を追加。表示場所・挙動は変更なし
 - 体験教材「インシデント対応30分」(8本)の `contentStatus: ai-draft` を外した(2026-10-28。体験コンテンツは専門家確認不要との判断)。`sourceRef` は「AI下書き由来。体験コンテンツのため専門家確認は不要と判断」とし、「専門家確認済み」とは書かない。`contentVer` は 2026.10.28。品質ゲートの `no-ai-draft` は `unknown-content-status`(空=通常 / `ai-draft` 以外の値は拒否)に変更し、画面の「AI下書き・専門確認前」表示は `ai-draft` の印があるシナリオにだけ出す。本文は変更なし。
 - 専門家確認OKを受け、`ai-draft` タグを外した（問題100・新形式問題72・用語25・読み物5の計202件）。`sourceRef` は「AI下書き・専門家確認済み」に更新し、`contentVer` は 2026.10.28。問題文・選択肢・正誤・解説は変更なし。
